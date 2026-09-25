@@ -1,10 +1,14 @@
 # 🎙️ SautiCare — Sauti ya Wazee (Voice Assistant for African Elders)
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-sauticare.onrender.com-brightgreen?style=for-the-badge&logo=render)](https://sauticare.onrender.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Technology](https://img.shields.io/badge/Powered%20By-AssemblyAI-blue)](https://www.assemblyai.com/)
 [![Language](https://img.shields.io/badge/Language-Kiswahili%20(East%20Africa)-orange)](#)
 
-> **A voice agent for elderly people in Africa using smartphones who lack the technological know-how when navigating through phone functions. This is essential when an elder is using a feature for the first time and is alone, providing life-saving assistance during emergencies using local African languages and dialects.**
+🌐 **Live Application URL:** [https://sauticare.onrender.com](https://sauticare.onrender.com)  
+📱 **PWA Installable:** Open the link in mobile Chrome/Safari and tap *"Add to Home Screen"*.
+
+> **An oral-first voice navigator and lifeline for African elders using smartphones. Empowers seniors to navigate everyday apps (WhatsApp, YouTube gospel, Camera, phone settings), manage mobile money safely (M-Pesa), and summon 24/7 emergency help—entirely in authentic East African Swahili with offline resilience.**
 
 Built for the **AssemblyAI - Voice Agent Hackathon** on [lablab.ai](https://lablab.ai/ai-hackathons/assemblyai-voice-agent-hackathon).
 
