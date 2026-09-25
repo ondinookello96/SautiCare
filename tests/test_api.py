@@ -60,7 +60,7 @@ class TestSautiCareAPI(unittest.TestCase):
     def test_service_worker(self):
         response = self.client.get("/sw.js")
         self.assertEqual(response.status_code, 200)
-        self.assertIn("sauticare-v1", response.text)
+        self.assertIn("sauticare-v2", response.text)
         self.assertIn("addEventListener", response.text)
 
     def test_post_tts_endpoint(self):
@@ -94,6 +94,21 @@ class TestSautiCareAPI(unittest.TestCase):
         })
         self.assertEqual(am_res.status_code, 200)
         self.assertEqual(am_res.json()["action"], "greeting")
+
+    def test_transcribe_audio_endpoint_validation(self):
+        res = self.client.post("/api/transcribe-audio")
+        self.assertEqual(res.status_code, 400)
+
+        # Non-empty dummy audio returns valid response with language fallback
+        res2 = self.client.post(
+            "/api/transcribe-audio?lang=ng&voice=ng-ezinne",
+            content=b"RIFF\x24\x00\x00\x00WAVEfmt ",
+            headers={"Content-Type": "audio/webm"}
+        )
+        self.assertEqual(res2.status_code, 200)
+        data = res2.json()
+        self.assertIn("transcript", data)
+        self.assertIn("audio_url", data)
 
 if __name__ == "__main__":
     unittest.main()

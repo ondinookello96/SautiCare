@@ -1,14 +1,15 @@
 /**
- * SautiCare Service Worker (Offline Resilience & PWA Support)
+ * SautiCare Service Worker (Offline Resilience & PWA Support - v2)
  * Ensures African elders can access emergency SOS and phone guides even with 0MB data.
+ * Uses Network-First with Cache-Fallback to guarantee real-time updates.
  */
 
-const CACHE_NAME = "sauticare-v1";
+const CACHE_NAME = "sauticare-v2";
 const STATIC_ASSETS = [
   "/",
-  "/static/style.css",
-  "/static/app.js",
-  "/static/manifest.json",
+  "/static/style.css?v=2.2",
+  "/static/app.js?v=2.2",
+  "/manifest.json",
   "/static/icon.svg",
   "/static/icon-192.png",
   "/static/icon-512.png"
@@ -18,20 +19,20 @@ const STATIC_ASSETS = [
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log("[SautiCare SW] Caching app shell assets...");
+      console.log("[SautiCare SW v2] Caching app shell assets...");
       return cache.addAll(STATIC_ASSETS);
     }).then(() => self.skipWaiting())
   );
 });
 
-// Activate Event: Clean up stale caches
+// Activate Event: Clean up stale caches immediately
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
-            console.log("[SautiCare SW] Removing old cache:", key);
+            console.log("[SautiCare SW v2] Removing old cache:", key);
             return caches.delete(key);
           }
         })
@@ -40,7 +41,7 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// Fetch Event: Offline-first for shell, network-first for API with offline fallback
+// Fetch Event: Network-first for shell and static, with offline fallback
 self.addEventListener("fetch", (event) => {
   const request = event.request;
   const url = new URL(request.url);
@@ -55,21 +56,20 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // 2. Static Assets (CSS, JS, Icons, Images): Cache first, fallback to network
-  if (url.pathname.startsWith("/static/")) {
+  // 2. Static Assets (CSS, JS, Icons, Images): Network first, fallback to Cache
+  if (url.pathname.startsWith("/static/") || url.pathname === "/manifest.json") {
     event.respondWith(
-      caches.match(request).then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-        return fetch(request).then((networkResponse) => {
-          if (networkResponse.status === 200) {
+      fetch(request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
             const responseClone = networkResponse.clone();
             caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
           }
           return networkResponse;
-        });
-      })
+        })
+        .catch(() => {
+          return caches.match(request);
+        })
     );
     return;
   }

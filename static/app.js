@@ -171,6 +171,7 @@ class SautiCareApp {
     this.registerServiceWorker();
     this.initWebSocket();
     this.initSpeechRecognition();
+    this.setLanguage(this.currentLang, false);
   }
 
   getSelectedVoice() {
@@ -210,6 +211,8 @@ class SautiCareApp {
       window.addEventListener("load", () => {
         navigator.serviceWorker.register("/sw.js").then((reg) => {
           console.log("[SautiCare] Service Worker registered with scope:", reg.scope);
+          // Check for immediate SW update to sauticare-v2
+          reg.update();
         }).catch((err) => {
           console.warn("[SautiCare] Service Worker registration failed:", err);
         });
@@ -274,7 +277,8 @@ class SautiCareApp {
   setupLanguageSwitcher() {
     const tabs = document.querySelectorAll(".lang-tab");
     tabs.forEach((tab) => {
-      tab.addEventListener("click", () => {
+      tab.addEventListener("click", (e) => {
+        e.preventDefault();
         const lang = tab.getAttribute("data-lang");
         if (lang && lang !== this.currentLang) {
           this.setLanguage(lang);
@@ -295,11 +299,8 @@ class SautiCareApp {
       tab.setAttribute("aria-selected", isCurrent ? "true" : "false");
     });
 
-    // Populate voice dropdown
+    // Select default voice for language in voice selector
     if (this.voiceSelect) {
-      this.voiceSelect.innerHTML = config.voices.map(v => 
-        `<option value="${v.id}">${v.label}</option>`
-      ).join("");
       this.voiceSelect.value = config.defaultVoice;
     }
 
@@ -338,19 +339,20 @@ class SautiCareApp {
           ${p.icon} <strong>${p.title}</strong> ${p.subtitle}
         </button>
       `).join("");
-
-      // Re-attach click events
-      pillsGrid.querySelectorAll(".pill-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const query = btn.getAttribute("data-query");
-          this.processQuery(query);
-        });
-      });
     }
 
     // Update speech recognition language
     if (this.recognition) {
       this.recognition.lang = config.recognitionLang;
+    }
+
+    // Notify WebSocket of language change if open
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+      this.socket.send(JSON.stringify({
+        action: "set_language",
+        lang: this.currentLang,
+        voice: this.getSelectedVoice()
+      }));
     }
 
     // Announce in native regional voice
@@ -371,13 +373,17 @@ class SautiCareApp {
     this.btnMic.addEventListener("click", () => this.toggleRecording());
     this.btnEmergency.addEventListener("click", () => this.triggerInstantSOS());
 
-    // Scenario Pills
-    document.querySelectorAll(".pill-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const query = btn.getAttribute("data-query");
-        this.processQuery(query);
+    // Scenario Pills (Delegated event listener on grid container)
+    const pillsGrid = document.getElementById("pills-grid");
+    if (pillsGrid) {
+      pillsGrid.addEventListener("click", (e) => {
+        const btn = e.target.closest(".pill-btn");
+        if (btn) {
+          const query = btn.getAttribute("data-query");
+          if (query) this.processQuery(query);
+        }
       });
-    });
+    }
 
     // Replay speech button
     this.btnReplay.addEventListener("click", () => {
@@ -389,9 +395,20 @@ class SautiCareApp {
       }
     });
 
-    // When voice selector changes, greet in chosen dialect
+    // When voice selector changes, greet in chosen dialect and sync language
     this.voiceSelect.addEventListener("change", () => {
       const selected = this.getSelectedVoice();
+      let detectedLang = this.currentLang;
+      if (selected.startsWith("sw-")) detectedLang = "sw";
+      else if (selected.startsWith("ng-")) detectedLang = "ng";
+      else if (selected.startsWith("zu-")) detectedLang = "zu";
+      else if (selected.startsWith("am-")) detectedLang = "am";
+
+      if (detectedLang !== this.currentLang) {
+        this.setLanguage(detectedLang, false);
+        this.voiceSelect.value = selected;
+      }
+
       const voiceGreetings = {
         "sw-ke-zuri": "Shikamoo Mzee wangu! Mimi ni Zuri, niko hapa kukuongoza na simu yako kwa upole.",
         "sw-ke-rafiki": "Jambo Mzee wetu! Mimi ni Rafiki, msaidizi wako wa sauti hapa Kenya.",
@@ -412,7 +429,8 @@ class SautiCareApp {
   // 4. WebSocket Setup for AssemblyAI Realtime Streaming
   initWebSocket() {
     const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const wsUrl = `${protocol}//${window.location.host}/ws/voice`;
+    const voice = this.getSelectedVoice();
+    const wsUrl = `${protocol}//${window.location.host}/ws/voice?lang=${this.currentLang}&voice=${voice}`;
 
     try {
       this.socket = new WebSocket(wsUrl);
@@ -490,7 +508,8 @@ class SautiCareApp {
   async startRecording() {
     this.isRecording = true;
     this.btnMic.classList.add("listening");
-    this.micLabel.innerText = "NINAKUSIKILIZA...";
+    const config = PAN_AFRICAN_UI[this.currentLang] || PAN_AFRICAN_UI.sw;
+    this.micLabel.innerText = config.micListening;
     this.waveform.classList.remove("hidden");
     this.recordedChunks = [];
 
@@ -510,8 +529,14 @@ class SautiCareApp {
       this.mediaRecorder.onstop = async () => {
         if (this.recordedChunks.length > 0) {
           const audioBlob = new Blob(this.recordedChunks, { type: "audio/webm" });
-          this.swahiliReply.innerText = "AssemblyAI inasikiliza sauti yako...";
-          this.englishSub.innerText = "(AssemblyAI is transcribing your Swahili speech...)";
+          const transcribeMsg = {
+            sw: "AssemblyAI inasikiliza sauti yako...",
+            ng: "AssemblyAI dey listen to your voice...",
+            zu: "I-AssemblyAI ilalela izwi lakho...",
+            am: "AssemblyAI ድምፅዎን እያዳመጠ ነው..."
+          };
+          this.swahiliReply.innerText = transcribeMsg[this.currentLang] || "AssemblyAI inasikiliza sauti yako...";
+          this.englishSub.innerText = `(AssemblyAI is transcribing your speech in ${config.region || 'African voice'}...)`;
 
           const voice = this.getSelectedVoice();
           try {
@@ -576,7 +601,13 @@ class SautiCareApp {
 
   // 7. Process Text Query via Backend API
   async processQuery(text) {
-    this.swahiliReply.innerText = `Ninakufikiria: "${text}"...`;
+    const thinkingTexts = {
+      sw: `Ninakufikiria: "${text}"...`,
+      ng: `I dey think about: "${text}"...`,
+      zu: `Ngicabanga ngalokhu: "${text}"...`,
+      am: `እያሰብኩበት ነው፡ "${text}"...`
+    };
+    this.swahiliReply.innerText = thinkingTexts[this.currentLang] || `Ninakufikiria: "${text}"...`;
     this.englishSub.innerText = "(Processing your request...)";
 
     const voice = this.getSelectedVoice();

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>SautiCare - Msaidizi wa Wazee wa Sauti</title>
-  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/style.css?v=2.2">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#059669">
   <meta name="mobile-web-app-capable" content="yes">
@@ -76,10 +76,24 @@
     <div class="voice-toolbar">
       <label for="voice-select" class="voice-label" id="voice-label">Sauti / Voice:</label>
       <select id="voice-select" class="voice-dropdown" aria-label="Chagua sauti">
-        <option value="sw-ke-zuri" selected>🇰🇪 Zuri (Mwanamke - Kenya)</option>
-        <option value="sw-ke-rafiki">🇰🇪 Rafiki (Mwanaume - Kenya)</option>
-        <option value="sw-tz-daudi">🇹🇿 Daudi (Mwanaume - Tanzania)</option>
-        <option value="sw-tz-rehema">🇹🇿 Rehema (Mwanamke - Tanzania)</option>
+        <optgroup label="🇰🇪 🇹🇿 Afrika Mashariki (Kiswahili)">
+          <option value="sw-ke-zuri" selected>🇰🇪 Zuri (Mwanamke - Kenya)</option>
+          <option value="sw-ke-rafiki">🇰🇪 Rafiki (Mwanaume - Kenya)</option>
+          <option value="sw-tz-daudi">🇹🇿 Daudi (Mwanaume - Tanzania)</option>
+          <option value="sw-tz-rehema">🇹🇿 Rehema (Mwanamke - Tanzania)</option>
+        </optgroup>
+        <optgroup label="🇳🇬 Afrika ya Magharibi (Nigerian Pidgin)">
+          <option value="ng-ezinne">🇳🇬 Ezinne (Female - Nigeria)</option>
+          <option value="ng-abeo">🇳🇬 Abeo (Male - Nigeria)</option>
+        </optgroup>
+        <optgroup label="🇿🇦 Afrika ya Kusini (isiZulu)">
+          <option value="zu-thando">🇿🇦 Thando (Owesifazane - South Africa)</option>
+          <option value="zu-themba">🇿🇦 Themba (Owesilisa - South Africa)</option>
+        </optgroup>
+        <optgroup label="🇪🇹 Pembe ya Afrika (Amharic / አማርኛ)">
+          <option value="am-mekdes">🇪🇹 መቅደስ (ሴት - Ethiopia)</option>
+          <option value="am-ameha">🇪🇹 አመሃ (ወንድ - Ethiopia)</option>
+        </optgroup>
       </select>
     </div>
 
@@ -171,6 +185,6 @@
   </div>
 
   <audio id="native-audio-player" preload="auto"></audio>
-  <script src="/static/app.js"></script>
+  <script src="/static/app.js?v=2.2"></script>
 </body>
 </html>

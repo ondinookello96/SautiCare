@@ -163,7 +163,7 @@ async def transcribe_audio_endpoint(
         return JSONResponse({"error": "No audio received"}, status_code=400)
 
     aai_service = AssemblyAIService(api_key=assemblyai_key)
-    transcript = aai_service.transcribe_audio_bytes(audio_bytes)
+    transcript = aai_service.transcribe_audio_bytes(audio_bytes, lang=lang)
 
     if not transcript:
         defaults = {
@@ -182,14 +182,19 @@ async def transcribe_audio_endpoint(
     return JSONResponse(decision)
 
 @app.websocket("/ws/voice")
-async def websocket_voice_endpoint(websocket: WebSocket):
+async def websocket_voice_endpoint(
+    websocket: WebSocket,
+    voice: str = "sw-ke-zuri",
+    lang: str = "sw"
+):
     """
     Bidirectional WebSocket endpoint for streaming speech audio to AssemblyAI
-    and returning live Swahili transcripts and native East African audio.
+    and returning live transcripts and native Pan-African audio.
     """
     await websocket.accept()
     logger.info("Client connected to SautiCare Voice WebSocket.")
 
+    state = {"lang": lang, "voice": voice}
     aai_service = AssemblyAIService(api_key=assemblyai_key)
 
     def handle_transcript(transcript: str, is_final: bool):
@@ -204,8 +209,8 @@ async def websocket_voice_endpoint(websocket: WebSocket):
                 "is_final": is_final
             }
             if is_final:
-                decision = agent_engine.process_intent(text, lang="sw")
-                audio_url = await tts_service.get_or_generate_audio(decision["swahili_response"])
+                decision = agent_engine.process_intent(text, lang=state["lang"])
+                audio_url = await tts_service.get_or_generate_audio(decision["swahili_response"], state["voice"])
                 decision["audio_url"] = audio_url
                 payload["decision"] = decision
 
@@ -224,10 +229,13 @@ async def websocket_voice_endpoint(websocket: WebSocket):
                 await aai_service.send_audio_chunk(data["bytes"])
             elif "text" in data and data["text"]:
                 msg = json.loads(data["text"])
-                if msg.get("action") == "process_text":
+                if msg.get("action") == "set_language":
+                    state["lang"] = msg.get("lang", state["lang"])
+                    state["voice"] = msg.get("voice", state["voice"])
+                elif msg.get("action") == "process_text":
                     text_input = msg.get("text", "")
-                    voice_pref = msg.get("voice", "sw-ke-zuri")
-                    lang_pref = msg.get("lang", "sw")
+                    voice_pref = msg.get("voice", state["voice"])
+                    lang_pref = msg.get("lang", state["lang"])
                     decision = agent_engine.process_intent(text_input, lang=lang_pref)
                     audio_url = await tts_service.get_or_generate_audio(decision["swahili_response"], voice_pref)
                     decision["audio_url"] = audio_url

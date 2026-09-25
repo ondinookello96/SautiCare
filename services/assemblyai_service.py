@@ -96,9 +96,12 @@ class AssemblyAIService:
             finally:
                 self.is_connected = False
 
-    def transcribe_audio_bytes(self, audio_bytes: bytes, suffix: str = ".webm") -> str:
+    def transcribe_audio_bytes(self, audio_bytes: bytes, suffix: str = ".webm", lang: str = "sw") -> str:
         """
-        Transcribes recorded speech using AssemblyAI with native Swahili recognition (language_code='sw').
+        Transcribes recorded speech using AssemblyAI with regional language support:
+        - sw: East African Swahili (language_code='sw')
+        - ng: West African Nigerian Pidgin / Dialect (language_code='en')
+        - zu / am: Southern & Horn of Africa (language_detection=True)
         """
         if not self.api_key or self.api_key == "your_assemblyai_api_key_here":
             logger.warning("No valid AssemblyAI key configured.")
@@ -114,12 +117,24 @@ class AssemblyAIService:
 
         try:
             transcriber = aai.Transcriber()
-            config = aai.TranscriptionConfig(language_code="sw")
+            if lang == "ng":
+                config = aai.TranscriptionConfig(language_code="en")
+            elif lang == "sw":
+                config = aai.TranscriptionConfig(language_code="sw")
+            else:
+                config = aai.TranscriptionConfig(language_detection=True)
+
             transcript = transcriber.transcribe(tmp_path, config=config)
             if transcript.status == aai.TranscriptStatus.completed:
                 return transcript.text or ""
             else:
                 logger.error(f"AssemblyAI transcription error: {transcript.error}")
+                # Fallback to English/multilingual if specific language failed
+                if lang != "en":
+                    fb_config = aai.TranscriptionConfig(language_code="en")
+                    fb_transcript = transcriber.transcribe(tmp_path, config=fb_config)
+                    if fb_transcript.status == aai.TranscriptStatus.completed:
+                        return fb_transcript.text or ""
                 return ""
         except Exception as e:
             logger.error(f"Error calling AssemblyAI transcription: {e}")
