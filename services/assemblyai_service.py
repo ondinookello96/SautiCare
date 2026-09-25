@@ -95,3 +95,38 @@ class AssemblyAIService:
                 pass
             finally:
                 self.is_connected = False
+
+    def transcribe_audio_bytes(self, audio_bytes: bytes, suffix: str = ".webm") -> str:
+        """
+        Transcribes recorded speech using AssemblyAI with native Swahili recognition (language_code='sw').
+        """
+        if not self.api_key or self.api_key == "your_assemblyai_api_key_here":
+            logger.warning("No valid AssemblyAI key configured.")
+            return ""
+
+        import tempfile
+        import assemblyai as aai
+        aai.settings.api_key = self.api_key
+
+        with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
+            tmp.write(audio_bytes)
+            tmp_path = tmp.name
+
+        try:
+            transcriber = aai.Transcriber()
+            config = aai.TranscriptionConfig(language_code="sw")
+            transcript = transcriber.transcribe(tmp_path, config=config)
+            if transcript.status == aai.TranscriptStatus.completed:
+                return transcript.text or ""
+            else:
+                logger.error(f"AssemblyAI transcription error: {transcript.error}")
+                return ""
+        except Exception as e:
+            logger.error(f"Error calling AssemblyAI transcription: {e}")
+            return ""
+        finally:
+            if os.path.exists(tmp_path):
+                try:
+                    os.remove(tmp_path)
+                except Exception:
+                    pass

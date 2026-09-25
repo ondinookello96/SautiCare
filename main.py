@@ -140,6 +140,30 @@ async def trigger_emergency(voice: str = "sw-ke-zuri"):
     result["audio_url"] = audio_url
     return JSONResponse(result)
 
+@app.post("/api/transcribe-audio")
+async def transcribe_audio_endpoint(request: Request, voice: str = Query("sw-ke-zuri")):
+    """
+    Accepts raw audio bytes recorded from user microphone,
+    transcribes it with AssemblyAI in Swahili, runs the intent engine,
+    and returns the decision with authentic East African Swahili speech.
+    """
+    audio_bytes = await request.body()
+    if not audio_bytes:
+        return JSONResponse({"error": "No audio received"}, status_code=400)
+
+    aai_service = AssemblyAIService(api_key=assemblyai_key)
+    transcript = aai_service.transcribe_audio_bytes(audio_bytes)
+
+    if not transcript:
+        transcript = "Nisaidie"
+
+    decision = agent_engine.process_swahili_intent(transcript)
+    audio_url = await tts_service.get_or_generate_audio(decision["swahili_response"], voice)
+    decision["audio_url"] = audio_url
+    decision["transcript"] = transcript
+
+    return JSONResponse(decision)
+
 @app.websocket("/ws/voice")
 async def websocket_voice_endpoint(websocket: WebSocket):
     """

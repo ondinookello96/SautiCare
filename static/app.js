@@ -264,23 +264,49 @@ class SautiCareApp {
     this.btnMic.classList.add("listening");
     this.micLabel.innerText = "NINAKUSIKILIZA...";
     this.waveform.classList.remove("hidden");
+    this.recordedChunks = [];
 
-    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      try {
-        this.audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        this.mediaRecorder = new MediaRecorder(this.audioStream, { mimeType: "audio/webm" });
+    try {
+      this.audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      this.mediaRecorder = new MediaRecorder(this.audioStream, { mimeType: "audio/webm" });
 
-        this.mediaRecorder.ondataavailable = (event) => {
-          if (event.data.size > 0 && this.socket && this.socket.readyState === WebSocket.OPEN) {
+      this.mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          this.recordedChunks.push(event.data);
+          if (this.socket && this.socket.readyState === WebSocket.OPEN) {
             this.socket.send(event.data);
           }
-        };
+        }
+      };
 
-        this.mediaRecorder.start(250);
-        return;
-      } catch (err) {
-        console.warn("Could not capture raw PCM/WebM stream, falling back to Web Speech:", err);
-      }
+      this.mediaRecorder.onstop = async () => {
+        if (this.recordedChunks.length > 0) {
+          const audioBlob = new Blob(this.recordedChunks, { type: "audio/webm" });
+          this.swahiliReply.innerText = "AssemblyAI inasikiliza sauti yako...";
+          this.englishSub.innerText = "(AssemblyAI is transcribing your Swahili speech...)";
+
+          const voice = this.getSelectedVoice();
+          try {
+            const res = await fetch(`/api/transcribe-audio?voice=${voice}`, {
+              method: "POST",
+              headers: { "Content-Type": "audio/webm" },
+              body: audioBlob
+            });
+            const decision = await res.json();
+            if (decision.transcript) {
+              this.swahiliReply.innerText = `Nimekusikia: "${decision.transcript}"`;
+            }
+            this.renderDecision(decision);
+          } catch (err) {
+            console.error("AssemblyAI transcribe error:", err);
+          }
+        }
+      };
+
+      this.mediaRecorder.start(250);
+      return;
+    } catch (err) {
+      console.warn("Could not capture MediaRecorder stream, falling back to Web Speech:", err);
     }
 
     if (this.recognition) {
