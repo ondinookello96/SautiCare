@@ -118,5 +118,46 @@ class TestSautiCareAgent(unittest.TestCase):
         self.assertEqual(result["action"], "greeting")
         self.assertIn("Marahaba", result["swahili_response"])
 
+    def test_pan_african_multilingual(self):
+        """Test intent classification and response localization across 4 African regions."""
+        # 1. Nigerian Pidgin (West Africa)
+        ng_sos = self.engine.process_intent("Help me abeg I don fall down", lang="ng")
+        self.assertTrue(ng_sos.get("is_emergency"))
+        self.assertIn("SOS SENT", ng_sos["visual_card"]["status"])
+
+        ng_greet = self.engine.process_intent("How you dey SautiCare", lang="ng")
+        self.assertEqual(ng_greet["action"], "greeting")
+        self.assertIn("Respect Elder", ng_greet["swahili_response"])
+
+        ng_wa = self.engine.process_intent("I wan send voice note for WhatsApp", lang="ng")
+        self.assertEqual(ng_wa["action"], "whatsapp_voicenote")
+        self.assertIn("microphone", ng_wa["swahili_response"])
+
+        # 2. isiZulu (Southern Africa)
+        zu_sos = self.engine.process_intent("Ngifuna usizo ngiwe phansi", lang="zu")
+        self.assertTrue(zu_sos.get("is_emergency"))
+        self.assertIn("USIZO LUTHUNYELWE", zu_sos["visual_card"]["status"])
+
+        zu_greet = self.engine.process_intent("Sawubona SautiCare", lang="zu")
+        self.assertEqual(zu_greet["action"], "greeting")
+        self.assertIn("Sawubona", zu_greet["swahili_response"])
+
+        zu_wa = self.engine.process_intent("Ngifuna ukuthumela umyalezo wezwi ku-WhatsApp", lang="zu")
+        self.assertEqual(zu_wa["action"], "whatsapp_voicenote")
+        self.assertIn("inkinobho", zu_wa["swahili_response"])
+
+        # 3. Amharic (Horn of Africa)
+        am_sos = self.engine.process_intent("ወድቄያለሁ እባክዎን በአስቸኳይ እርዱኝ", lang="am")
+        self.assertTrue(am_sos.get("is_emergency"))
+        self.assertIn("የአደጋ ጊዜ", am_sos["visual_card"]["status"])
+
+        am_greet = self.engine.process_intent("ጤና ይስጥልኝ ሳውቲኬር", lang="am")
+        self.assertEqual(am_greet["action"], "greeting")
+        self.assertIn("ጤና ይስጥልኝ", am_greet["swahili_response"])
+
+        am_wa = self.engine.process_intent("በዋትስአፕ የድምፅ መልእክት መላክ እፈልጋለሁ", lang="am")
+        self.assertEqual(am_wa["action"], "whatsapp_voicenote")
+        self.assertIn("የድምፅ መልእክት", am_wa["swahili_response"])
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,13 +1,138 @@
 /**
  * SautiCare Client Application
  * Universal Smartphone Navigator & Voice Assistant for African Elders.
- * Features: Authentic East African Swahili Neural Speech, Elder Volume Boost (+40%),
- * Dynamic Accessibility Text Scaling (A- / A / A+), Full Everyday App Navigation
- * (WhatsApp, YouTube Gospel, Camera, Settings, Airtime USSD, M-Pesa), and Offline Lifeline.
+ * Supports 4 African Regions: Kiswahili (East Africa), Nigerian Pidgin (West Africa),
+ * isiZulu (Southern Africa), and Amharic (Horn of Africa).
  */
+
+const PAN_AFRICAN_UI = {
+  sw: {
+    region: "East Africa (Kiswahili)",
+    greetingTitle: "Shikamoo Mzee wetu!",
+    greetingSub: "SautiCare inakuongoza kutumia simu yako yote kwa Kiswahili fasaha na sauti kubwa.",
+    welcomeBadge: "KARIBU",
+    welcomeText: "Bonyeza kitufe kikubwa cha kijani hapa chini na uzungumze kwa Kiswahili. SautiCare itakusaidia na Watsapu, Yutubu, picha, salio, au dharura.",
+    welcomeEn: "(Press the big green button below and speak in Swahili. SautiCare will assist with WhatsApp, YouTube gospel, photos, airtime, or emergencies.)",
+    sosTitle: "MSAADA WA DHARURA (SOS)",
+    sosSub: "Piga simu na tuma ujumbe wa eneo mara moja",
+    scenariosTitle: "Chagua huduma unayotaka kuelekezwa:",
+    speakerLabel: "Sikiliza",
+    micIdle: "BONYEZA KUONGEA",
+    micListening: "NINAKUSIKILIZA...",
+    voices: [
+      { id: "sw-ke-zuri", label: "🇰🇪 Zuri (Mwanamke - Kenya)" },
+      { id: "sw-ke-rafiki", label: "🇰🇪 Rafiki (Mwanaume - Kenya)" },
+      { id: "sw-tz-daudi", label: "🇹🇿 Daudi (Mwanaume - Tanzania)" },
+      { id: "sw-tz-rehema", label: "🇹🇿 Rehema (Mwanamke - Tanzania)" }
+    ],
+    defaultVoice: "sw-ke-zuri",
+    recognitionLang: "sw-KE",
+    pills: [
+      { cls: "app-pill-wa", icon: "💬", title: "Watsapu:", subtitle: "Sauti", query: "Nataka kutuma ujumbe wa sauti kwa Watsapu" },
+      { cls: "app-pill-yt", icon: "🎵", title: "Yutubu:", subtitle: "Nyimbo za Injili", query: "Fungua nyimbo za injili kwenye Yutubu" },
+      { cls: "app-pill-cam", icon: "📸", title: "Kamera:", subtitle: "Piga Picha", query: "Nataka kupiga picha ya wajukuu" },
+      { cls: "app-pill-set", icon: "🔤", title: "Kuza Maandishi", subtitle: "", query: "Maandishi ni madogo, ongeza ukubwa wa maandishi" },
+      { cls: "app-pill-bal", icon: "📞", title: "Salio:", subtitle: "Piga *144#", query: "Salio langu la simu limebaki ngapi" },
+      { cls: "app-pill-mpesa", icon: "💸", title: "M-Pesa:", subtitle: "Tuma Pesa", query: "Nataka kutuma pesa kwa M-Pesa" },
+      { cls: "app-pill-torch", icon: "🔦", title: "Tochi:", subtitle: "Washa Mwanga", query: "Washa tochi ya simu kuko giza" },
+      { cls: "app-pill-sos", icon: "🚑", title: "Dharura:", subtitle: "Msaada", query: "Nisaidie nimeanguka chini naumwa" }
+    ]
+  },
+  ng: {
+    region: "West Africa (Nigerian Pidgin)",
+    greetingTitle: "Kedu / Salama Elder!",
+    greetingSub: "SautiCare dey guide you use your phone well well with clear voice and loud sound.",
+    welcomeBadge: "WELCOME",
+    welcomeText: "Press this big green button for ground make you talk. SautiCare go help you send WhatsApp voice note, open YouTube gospel, snap photo, or call emergency.",
+    welcomeEn: "(Press the big green button below and speak in Pidgin. SautiCare will assist with WhatsApp, YouTube gospel, photos, airtime, or emergencies.)",
+    sosTitle: "EMERGENCY SOS HELP 🚨",
+    sosSub: "Dial family phone and send your GPS location sharp sharp",
+    scenariosTitle: "Choose wetin you wan do for your phone:",
+    speakerLabel: "Listen",
+    micIdle: "PRESS TO TALK",
+    micListening: "DEY LISTEN TO YOU...",
+    voices: [
+      { id: "ng-ezinne", label: "🇳🇬 Ezinne (Female - Nigeria)" },
+      { id: "ng-abeo", label: "🇳🇬 Abeo (Male - Nigeria)" }
+    ],
+    defaultVoice: "ng-ezinne",
+    recognitionLang: "en-NG",
+    pills: [
+      { cls: "app-pill-wa", icon: "💬", title: "WhatsApp:", subtitle: "Voice Note", query: "I wan send voice note for WhatsApp" },
+      { cls: "app-pill-yt", icon: "🎵", title: "YouTube:", subtitle: "Gospel Songs", query: "Play Nigerian gospel worship songs on YouTube" },
+      { cls: "app-pill-cam", icon: "📸", title: "Camera:", subtitle: "Snap Photo", query: "I wan snap photo with my camera" },
+      { cls: "app-pill-set", icon: "🔤", title: "Make Words Big", subtitle: "", query: "The words too small make am big" },
+      { cls: "app-pill-bal", icon: "📞", title: "Airtime:", subtitle: "Dial *310#", query: "How much airtime balance remain" },
+      { cls: "app-pill-mpesa", icon: "💸", title: "OPay / Transfer:", subtitle: "Send Money", query: "I wan transfer money with OPay" },
+      { cls: "app-pill-torch", icon: "🔦", title: "Flashlight:", subtitle: "Put Light", query: "Turn on torchlight everywhere dark" },
+      { cls: "app-pill-sos", icon: "🚑", title: "Emergency:", subtitle: "Help Me", query: "Help me abeg I don fall down" }
+    ]
+  },
+  zu: {
+    region: "Southern Africa (isiZulu)",
+    greetingTitle: "Sawubona Mkhulu / Gogo!",
+    greetingSub: "I-SautiCare ikusiza ukusebenzisa ifoni yakho ngesiZulu esicacile nevolumu ephezulu.",
+    welcomeBadge: "SIYAKWEMUKELA",
+    welcomeText: "Cindezela inkinobho enkulu eluhlaza ngezansi bese ukhuluma ngesiZulu. I-SautiCare izokusiza nge-WhatsApp, umculo wokholo ku-YouTube, izithombe, noma usizo lwesimo esiphuthumayo.",
+    welcomeEn: "(Press the big green button below and speak in isiZulu. SautiCare will assist with WhatsApp, YouTube gospel, photos, airtime, or emergencies.)",
+    sosTitle: "USIZO LWESIMO ESIPHUTHUMAYO (SOS) 🚨",
+    sosSub: "Shaya ucingo futhi uthumele indawo yakho ngokushesha",
+    scenariosTitle: "Khetha lokho ofuna ukukwenza:",
+    speakerLabel: "Lalela",
+    micIdle: "CINDEZELA UKUKHULUMA",
+    micListening: "NGIYAKULALELA...",
+    voices: [
+      { id: "zu-thando", label: "🇿🇦 Thando (Owesifazane - South Africa)" },
+      { id: "zu-themba", label: "🇿🇦 Themba (Owesilisa - South Africa)" }
+    ],
+    defaultVoice: "zu-thando",
+    recognitionLang: "zu-ZA",
+    pills: [
+      { cls: "app-pill-wa", icon: "💬", title: "WhatsApp:", subtitle: "Ilizwi", query: "Ngifuna ukuthumela umyalezo wezwi ku-WhatsApp" },
+      { cls: "app-pill-yt", icon: "🎵", title: "YouTube:", subtitle: "Umculo Wokholo", query: "Dlala umculo wokholo ku-YouTube" },
+      { cls: "app-pill-cam", icon: "📸", title: "Ikhamera:", subtitle: "Thatha Isithombe", query: "Ngifuna ukuthatha isithombe" },
+      { cls: "app-pill-set", icon: "🔤", title: "Khulisa Amagama", subtitle: "", query: "Amagama mancane kakhulu khulisa" },
+      { cls: "app-pill-bal", icon: "📞", title: "Ibhalansi:", subtitle: "Shaya *136#", query: "Ibhalansi yami ingakanani" },
+      { cls: "app-pill-mpesa", icon: "💸", title: "eWallet / Imali:", subtitle: "Thumela", query: "Ngifuna ukuthumela imali" },
+      { cls: "app-pill-torch", icon: "🔦", title: "Ithoshi:", subtitle: "Khanyisa", query: "Khanyisa ithoshi kumnyama" },
+      { cls: "app-pill-sos", icon: "🚑", title: "Isimo Esiphuthumayo:", subtitle: "Usizo", query: "Ngifuna usizo ngiwe phansi" }
+    ]
+  },
+  am: {
+    region: "Horn of Africa (አማርኛ / Amharic)",
+    greetingTitle: "ጤና ይስጥልኝ አያቴ!",
+    greetingSub: "ሳውቲኬር ስልክዎን በቀላሉ በአማርኛ እና በከፍተኛ ድምፅ እንዲጠቀሙ ይመራዎታል::",
+    welcomeBadge: "እንኳን ደህና መጡ",
+    welcomeText: "ከታች ያለውን ትልቅ አረንጓዴ ቁልፍ ተጭነው በአማርኛ ይናገሩ። ሳውቲኬር በዋትስአፕ፣ በዩቲዩብ መዝሙር፣ በፎቶ፣ ወይም በአደጋ ጊዜ ይረዳዎታል::",
+    welcomeEn: "(Press the big green button below and speak in Amharic. SautiCare will assist with WhatsApp, YouTube gospel, photos, airtime, or emergencies.)",
+    sosTitle: "የአደጋ ጊዜ እርዳታ (SOS) 🚨",
+    sosSub: "ወዲያውኑ ስልክ ይደውሉ እና ያለዎትን ቦታ መልእክት ይላኩ",
+    scenariosTitle: "የሚፈልጉትን አገልግሎት ይምረጡ:",
+    speakerLabel: "አዳምጥ",
+    micIdle: "ለመናገር ይጫኑ",
+    micListening: "እያዳመጥኩ ነው...",
+    voices: [
+      { id: "am-mekdes", label: "🇪🇹 መቅደስ (ሴት - Ethiopia)" },
+      { id: "am-ameha", label: "🇪🇹 አመሃ (ወንድ - Ethiopia)" }
+    ],
+    defaultVoice: "am-mekdes",
+    recognitionLang: "am-ET",
+    pills: [
+      { cls: "app-pill-wa", icon: "💬", title: "ዋትስአፕ፡", subtitle: "የድምፅ መልእክት", query: "በዋትስአፕ የድምፅ መልእክት መላክ እፈልጋለሁ" },
+      { cls: "app-pill-yt", icon: "🎵", title: "ዩቲዩብ፡", subtitle: "የኢትዮጵያ መዝሙር", query: "በዩቲዩብ ላይ የኦርቶዶክስ እና ፕሮቴስታንት መዝሙር ክፈት" },
+      { cls: "app-pill-cam", icon: "📸", title: "ካሜራ፡", subtitle: "ፎቶ አንሳ", query: "በስልኬ ፎቶ ማንሳት እፈልጋለሁ" },
+      { cls: "app-pill-set", icon: "🔤", title: "የጽሑፍ መጠን ጨምር", subtitle: "", query: "የስክሪኑ ጽሑፍ በጣም አነሰ አግዝፈው" },
+      { cls: "app-pill-bal", icon: "📞", title: "ቀሪ ሂሳብ፡", subtitle: "ደውል *804#", query: "የስልኬን ቀሪ ሂሳብ ማወቅ እፈልጋለሁ" },
+      { cls: "app-pill-mpesa", icon: "💸", title: "ቴሌብር፡", subtitle: "ገንዘብ ላክ", query: "በቴሌብር ገንዘብ መላክ እፈልጋለሁ" },
+      { cls: "app-pill-torch", icon: "🔦", title: "የእጅ ባትሪ፡", subtitle: "አብራ", query: "ጨልሟል የእጅ ባትሪውን አብራ" },
+      { cls: "app-pill-sos", icon: "🚑", title: "የአደጋ ጊዜ፡", subtitle: "እርዳኝ", query: "ወድቄያለሁ እባክዎን በአስቸኳይ እርዱኝ" }
+    ]
+  }
+};
 
 class SautiCareApp {
   constructor() {
+    this.currentLang = "sw";
     this.isRecording = false;
     this.isOnline = navigator.onLine;
     this.mediaRecorder = null;
@@ -39,6 +164,7 @@ class SautiCareApp {
   }
 
   init() {
+    this.setupLanguageSwitcher();
     this.setupConnectivityMonitor();
     this.setupEventListeners();
     this.setupAccessibilityControls();
@@ -48,7 +174,7 @@ class SautiCareApp {
   }
 
   getSelectedVoice() {
-    return this.voiceSelect ? this.voiceSelect.value : "sw-ke-zuri";
+    return this.voiceSelect ? this.voiceSelect.value : (PAN_AFRICAN_UI[this.currentLang]?.defaultVoice || "sw-ke-zuri");
   }
 
   // 1. Accessibility Controls (Font Sizing for Elders)
@@ -144,7 +270,103 @@ class SautiCareApp {
     updateStatus();
   }
 
-  // 3. Setup UI Event Listeners
+  // 3. Pan-African Regional Language Switcher
+  setupLanguageSwitcher() {
+    const tabs = document.querySelectorAll(".lang-tab");
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const lang = tab.getAttribute("data-lang");
+        if (lang && lang !== this.currentLang) {
+          this.setLanguage(lang);
+        }
+      });
+    });
+  }
+
+  setLanguage(lang, announce = true) {
+    if (!PAN_AFRICAN_UI[lang]) return;
+    this.currentLang = lang;
+    const config = PAN_AFRICAN_UI[lang];
+
+    // Update active tab styles
+    document.querySelectorAll(".lang-tab").forEach(tab => {
+      const isCurrent = tab.getAttribute("data-lang") === lang;
+      tab.classList.toggle("active", isCurrent);
+      tab.setAttribute("aria-selected", isCurrent ? "true" : "false");
+    });
+
+    // Populate voice dropdown
+    if (this.voiceSelect) {
+      this.voiceSelect.innerHTML = config.voices.map(v => 
+        `<option value="${v.id}">${v.label}</option>`
+      ).join("");
+      this.voiceSelect.value = config.defaultVoice;
+    }
+
+    // Update greeting banner
+    const greetingTitle = document.getElementById("greeting-title");
+    const greetingSub = document.getElementById("greeting-sub");
+    if (greetingTitle) greetingTitle.innerText = config.greetingTitle;
+    if (greetingSub) greetingSub.innerText = config.greetingSub;
+
+    // Update welcome card text
+    if (this.cardBadge) this.cardBadge.innerText = config.welcomeBadge;
+    if (this.swahiliReply) this.swahiliReply.innerText = config.welcomeText;
+    if (this.englishSub) this.englishSub.innerText = config.welcomeEn;
+    if (this.actionDetails) this.actionDetails.innerHTML = "";
+
+    // Update SOS button text
+    const sosTitle = document.getElementById("sos-title");
+    const sosSub = document.getElementById("sos-sub");
+    if (sosTitle) sosTitle.innerText = config.sosTitle;
+    if (sosSub) sosSub.innerText = config.sosSub;
+
+    // Update scenarios title
+    const scenariosTitle = document.getElementById("scenarios-title");
+    if (scenariosTitle) scenariosTitle.innerText = config.scenariosTitle;
+
+    // Update speaker & mic button labels
+    const speakerLabel = document.getElementById("speaker-label");
+    if (speakerLabel) speakerLabel.innerText = config.speakerLabel;
+    if (this.micLabel) this.micLabel.innerText = this.isRecording ? config.micListening : config.micIdle;
+
+    // Update scenario pills
+    const pillsGrid = document.getElementById("pills-grid");
+    if (pillsGrid) {
+      pillsGrid.innerHTML = config.pills.map(p => `
+        <button class="pill-btn ${p.cls}" data-query="${p.query}">
+          ${p.icon} <strong>${p.title}</strong> ${p.subtitle}
+        </button>
+      `).join("");
+
+      // Re-attach click events
+      pillsGrid.querySelectorAll(".pill-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const query = btn.getAttribute("data-query");
+          this.processQuery(query);
+        });
+      });
+    }
+
+    // Update speech recognition language
+    if (this.recognition) {
+      this.recognition.lang = config.recognitionLang;
+    }
+
+    // Announce in native regional voice
+    if (announce) {
+      const voiceGreetings = {
+        "sw": "Habari Mzee wangu! SautiCare iko tayari kukusaidia kwa Kiswahili.",
+        "ng": "How you dey Elder! SautiCare dey here to help you well well.",
+        "zu": "Sawubona Mkhulu! I-SautiCare isilungele ukukusiza ngesiZulu.",
+        "am": "ጤና ይስጥልኝ አያቴ! ሳውቲኬር በአማርኛ ሊረዳዎት ዝግጁ ነው::"
+      };
+      const text = voiceGreetings[lang] || config.greetingTitle;
+      this.playNativeSwahiliAudio(text);
+    }
+  }
+
+  // 4. Setup UI Event Listeners
   setupEventListeners() {
     this.btnMic.addEventListener("click", () => this.toggleRecording());
     this.btnEmergency.addEventListener("click", () => this.triggerInstantSOS());
@@ -167,14 +389,20 @@ class SautiCareApp {
       }
     });
 
-    // When voice selector changes, greet in pure, natural Swahili (NO English words)
+    // When voice selector changes, greet in chosen dialect
     this.voiceSelect.addEventListener("change", () => {
       const selected = this.getSelectedVoice();
       const voiceGreetings = {
         "sw-ke-zuri": "Shikamoo Mzee wangu! Mimi ni Zuri, niko hapa kukuongoza na simu yako kwa upole.",
         "sw-ke-rafiki": "Jambo Mzee wetu! Mimi ni Rafiki, msaidizi wako wa sauti hapa Kenya.",
         "sw-tz-daudi": "Habari za leo Mzee! Mimi ni Daudi, msaidizi wako wa sauti kutoka Tanzania.",
-        "sw-tz-rehema": "Habari yako Mzee wetu! Mimi ni Rehema, niko tayari kukusaidia na simu yako."
+        "sw-tz-rehema": "Habari yako Mzee wetu! Mimi ni Rehema, niko tayari kukusaidia na simu yako.",
+        "ng-ezinne": "How you dey Elder! Na Ezinne be your voice assistant for Naija.",
+        "ng-abeo": "Salama Elder! Na Abeo dey here to guide you well well.",
+        "zu-thando": "Sawubona Mkhulu! Igama lami nguThando, ngizokusiza ngefoni yakho.",
+        "zu-themba": "Sawubona Gogo! NginguThemba, ngilapha ukukusiza njalo.",
+        "am-mekdes": "ጤና ይስጥልኝ አያቴ! እኔ መቅደስ ነኝ፣ ስልክዎን እንዲጠቀሙ በደስታ እረዳዎታለሁ::",
+        "am-ameha": "ጤና ይስጥልኝ አያቴ! እኔ አመሃ ነኝ፣ የሚያስፈልግዎትን ሁሉ እረዳዎታለሁ::"
       };
       const text = voiceGreetings[selected] || "Marahaba, niko tayari kukusaidia.";
       this.playNativeSwahiliAudio(text);
@@ -287,7 +515,7 @@ class SautiCareApp {
 
           const voice = this.getSelectedVoice();
           try {
-            const res = await fetch(`/api/transcribe-audio?voice=${voice}`, {
+            const res = await fetch(`/api/transcribe-audio?voice=${voice}&lang=${this.currentLang}`, {
               method: "POST",
               headers: { "Content-Type": "audio/webm" },
               body: audioBlob
@@ -341,7 +569,8 @@ class SautiCareApp {
   stopRecordingUI() {
     this.isRecording = false;
     this.btnMic.classList.remove("listening");
-    this.micLabel.innerText = "BONYEZA KUONGEA";
+    const config = PAN_AFRICAN_UI[this.currentLang] || PAN_AFRICAN_UI.sw;
+    this.micLabel.innerText = config.micIdle;
     this.waveform.classList.add("hidden");
   }
 
@@ -361,7 +590,7 @@ class SautiCareApp {
       const response = await fetch("/api/process-text", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: text, voice: voice })
+        body: JSON.stringify({ text: text, voice: voice, lang: this.currentLang })
       });
       const data = await response.json();
       this.renderDecision(data);
@@ -373,14 +602,15 @@ class SautiCareApp {
 
   // 8. One-Tap Instant Emergency SOS Handler
   async triggerInstantSOS() {
+    const voice = this.getSelectedVoice();
     if (this.isOnline) {
       try {
-        const res = await fetch("/api/emergency/sos", {
+        const res = await fetch(`/api/emergency/sos?voice=${voice}&lang=${this.currentLang}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             distress_type: "SOS Button Pressed (Kitufe cha Dharura)",
-            location: "1°17'31.2\"S 36°49'10.8\"E (Nairobi, Kenya)"
+            location: "1°17'31.2\"S 36°49'10.8\"E (Africa)"
           })
         });
         const decision = await res.json();
@@ -605,7 +835,7 @@ class SautiCareApp {
       const res = await fetch("/api/tts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: text, voice: voice })
+        body: JSON.stringify({ text: text, voice: voice, lang: this.currentLang })
       });
       const data = await res.json();
       if (data.audio_url) {

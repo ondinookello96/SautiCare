@@ -54,14 +54,32 @@
       <button id="btn-install-pwa" class="btn-install">Weka Sasa</button>
     </div>
 
-    <!-- Voice Selection Toolbar (Pure Swahili - Zero English) -->
+    <!-- Pan-African Regional Language Switcher -->
+    <div class="lang-switcher-bar">
+      <div class="lang-tabs" role="tablist">
+        <button class="lang-tab active" data-lang="sw" role="tab" aria-selected="true" title="East Africa">
+          <span class="tab-flag">🇰🇪🇹🇿</span> <span class="tab-name">Kiswahili</span>
+        </button>
+        <button class="lang-tab" data-lang="ng" role="tab" aria-selected="false" title="West Africa">
+          <span class="tab-flag">🇳🇬</span> <span class="tab-name">Pidgin</span>
+        </button>
+        <button class="lang-tab" data-lang="zu" role="tab" aria-selected="false" title="Southern Africa">
+          <span class="tab-flag">🇿🇦</span> <span class="tab-name">isiZulu</span>
+        </button>
+        <button class="lang-tab" data-lang="am" role="tab" aria-selected="false" title="Horn of Africa">
+          <span class="tab-flag">🇪🇹</span> <span class="tab-name">አማርኛ</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Voice Selection Toolbar -->
     <div class="voice-toolbar">
-      <label for="voice-select" class="voice-label">Chagua Sauti:</label>
-      <select id="voice-select" class="voice-dropdown" aria-label="Chagua sauti ya Kiswahili">
-        <option value="sw-ke-zuri" selected>🇰🇪 Zuri (Sauti ya Kike - Kenya)</option>
-        <option value="sw-ke-rafiki">🇰🇪 Rafiki (Sauti ya Kiume - Kenya)</option>
-        <option value="sw-tz-daudi">🇹🇿 Daudi (Sauti ya Kiume - Tanzania)</option>
-        <option value="sw-tz-rehema">🇹🇿 Rehema (Sauti ya Kike - Tanzania)</option>
+      <label for="voice-select" class="voice-label" id="voice-label">Sauti / Voice:</label>
+      <select id="voice-select" class="voice-dropdown" aria-label="Chagua sauti">
+        <option value="sw-ke-zuri" selected>🇰🇪 Zuri (Mwanamke - Kenya)</option>
+        <option value="sw-ke-rafiki">🇰🇪 Rafiki (Mwanaume - Kenya)</option>
+        <option value="sw-tz-daudi">🇹🇿 Daudi (Mwanaume - Tanzania)</option>
+        <option value="sw-tz-rehema">🇹🇿 Rehema (Mwanamke - Tanzania)</option>
       </select>
     </div>
 
@@ -78,7 +96,7 @@
         <div class="card-header">
           <span id="card-badge" class="card-badge">KARIBU</span>
           <button id="btn-replay-audio" class="speaker-btn" title="Sikiliza Tena kwa Sauti Kubwa" aria-label="Sikiliza tena">
-            🔊 <span class="speaker-label">Sikiliza</span>
+            🔊 <span class="speaker-label" id="speaker-label">Sikiliza</span>
           </button>
         </div>
         <p id="swahili-reply" class="swahili-text">
@@ -95,16 +113,16 @@
         <button id="btn-emergency-sos" class="btn-sos" aria-label="Bonyeza hapa kwa msaada wa haraka wa dharura">
           <span class="sos-icon">🚨</span>
           <div class="sos-text">
-            <strong>MSAADA WA DHARURA (SOS)</strong>
-            <small>Piga simu na tuma ujumbe wa eneo mara moja</small>
+            <strong id="sos-title">MSAADA WA DHARURA (SOS)</strong>
+            <small id="sos-sub">Piga simu na tuma ujumbe wa eneo mara moja</small>
           </div>
         </button>
       </section>
 
       <!-- Everyday Smartphone Features (Grouped for African Elders) -->
       <section class="quick-scenarios">
-        <div class="scenarios-title">Chagua huduma unayotaka kuelekezwa:</div>
-        <div class="pills-grid">
+        <div class="scenarios-title" id="scenarios-title">Chagua huduma unayotaka kuelekezwa:</div>
+        <div class="pills-grid" id="pills-grid">
           <button class="pill-btn app-pill-wa" data-query="Nataka kutuma ujumbe wa sauti kwa Watsapu">
             💬 <strong>Watsapu:</strong> Sauti
           </button>

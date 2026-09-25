@@ -70,5 +70,30 @@ class TestSautiCareAPI(unittest.TestCase):
         self.assertIn("audio_url", data)
         self.assertEqual(data["voice"], "sw-ke-zuri")
 
+    def test_multilingual_api(self):
+        # Nigerian Pidgin text query
+        ng_res = self.client.post("/api/process-text", json={
+            "text": "I wan send voice note for WhatsApp",
+            "voice": "ng-ezinne",
+            "lang": "ng"
+        })
+        self.assertEqual(ng_res.status_code, 200)
+        self.assertEqual(ng_res.json()["action"], "whatsapp_voicenote")
+
+        # isiZulu emergency query
+        zu_res = self.client.post("/api/emergency/sos?lang=zu&voice=zu-thando")
+        self.assertEqual(zu_res.status_code, 200)
+        self.assertTrue(zu_res.json()["is_emergency"])
+        self.assertIn("audio_url", zu_res.json())
+
+        # Amharic text query
+        am_res = self.client.post("/api/process-text", json={
+            "text": "ጤና ይስጥልኝ ሳውቲኬር",
+            "voice": "am-mekdes",
+            "lang": "am"
+        })
+        self.assertEqual(am_res.status_code, 200)
+        self.assertEqual(am_res.json()["action"], "greeting")
+
 if __name__ == "__main__":
     unittest.main()

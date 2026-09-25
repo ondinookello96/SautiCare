@@ -17,13 +17,29 @@ from typing import Dict, Any, Optional
 
 logger = logging.getLogger(__name__)
 
-# Available Authentic East African Voices
-EAST_AFRICAN_VOICES = {
-    "sw-ke-zuri": "sw-KE-ZuriNeural",      # Kenyan Female (Warm, elder-respectful, default)
-    "sw-ke-rafiki": "sw-KE-RafikiNeural",  # Kenyan Male (Friendly, clear)
-    "sw-tz-daudi": "sw-TZ-DaudiNeural",    # Tanzanian Male (Classic coastal Swahili)
-    "sw-tz-rehema": "sw-TZ-RehemaNeural",  # Tanzanian Female (Clear, melodious)
+# Pan-African Authentic Neural Voices across 4 African Regions
+PAN_AFRICAN_VOICES = {
+    # 🇰🇪 🇹🇿 East Africa (Kiswahili)
+    "sw-ke-zuri": {"voice": "sw-KE-ZuriNeural", "region": "East Africa", "lang": "Kiswahili (Kenya)", "gender": "Female", "flag": "🇰🇪"},
+    "sw-ke-rafiki": {"voice": "sw-KE-RafikiNeural", "region": "East Africa", "lang": "Kiswahili (Kenya)", "gender": "Male", "flag": "🇰🇪"},
+    "sw-tz-daudi": {"voice": "sw-TZ-DaudiNeural", "region": "East Africa", "lang": "Kiswahili (Tanzania)", "gender": "Male", "flag": "🇹🇿"},
+    "sw-tz-rehema": {"voice": "sw-TZ-RehemaNeural", "region": "East Africa", "lang": "Kiswahili (Tanzania)", "gender": "Female", "flag": "🇹🇿"},
+
+    # 🇳🇬 West Africa (Nigerian Pidgin & Dialect)
+    "ng-ezinne": {"voice": "en-NG-EzinneNeural", "region": "West Africa", "lang": "Nigerian Pidgin (Nigeria)", "gender": "Female", "flag": "🇳🇬"},
+    "ng-abeo": {"voice": "en-NG-AbeoNeural", "region": "West Africa", "lang": "Nigerian Pidgin (Nigeria)", "gender": "Male", "flag": "🇳🇬"},
+
+    # 🇿🇦 Southern Africa (isiZulu)
+    "zu-thando": {"voice": "zu-ZA-ThandoNeural", "region": "Southern Africa", "lang": "isiZulu (South Africa)", "gender": "Female", "flag": "🇿🇦"},
+    "zu-themba": {"voice": "zu-ZA-ThembaNeural", "region": "Southern Africa", "lang": "isiZulu (South Africa)", "gender": "Male", "flag": "🇿🇦"},
+
+    # 🇪🇹 Horn of Africa (Amharic)
+    "am-mekdes": {"voice": "am-ET-MekdesNeural", "region": "Horn of Africa", "lang": "Amharic / አማርኛ (Ethiopia)", "gender": "Female", "flag": "🇪🇹"},
+    "am-ameha": {"voice": "am-ET-AmehaNeural", "region": "Horn of Africa", "lang": "Amharic / አማርኛ (Ethiopia)", "gender": "Male", "flag": "🇪🇹"},
 }
+
+# Backward compatibility alias
+EAST_AFRICAN_VOICES = {k: v["voice"] for k, v in PAN_AFRICAN_VOICES.items()}
 
 def clean_text_for_swahili_tts(text: str) -> str:
     """
@@ -86,7 +102,7 @@ class TTSService:
         if not clean_text:
             return ""
 
-        voice = EAST_AFRICAN_VOICES.get(voice_key, self.default_voice)
+        voice = EAST_AFRICAN_VOICES.get(voice_key, voice_key if "Neural" in str(voice_key) else self.default_voice)
         
         # Unique hash based on text and voice
         text_hash = hashlib.md5(f"{voice}:{clean_text}".encode("utf-8")).hexdigest()

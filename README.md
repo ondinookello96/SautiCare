@@ -1,26 +1,39 @@
-# 🎙️ SautiCare — Sauti ya Wazee (Voice Assistant for African Elders)
+# 🎙️ SautiCare — Sauti ya Wazee (Pan-African Voice Navigator for Elders)
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-sauticare.onrender.com-brightgreen?style=for-the-badge&logo=render)](https://sauticare.onrender.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Technology](https://img.shields.io/badge/Powered%20By-AssemblyAI-blue)](https://www.assemblyai.com/)
-[![Language](https://img.shields.io/badge/Language-Kiswahili%20(East%20Africa)-orange)](#)
+[![Languages](https://img.shields.io/badge/Languages-Kiswahili%20%7C%20Pidgin%20%7C%20isiZulu%20%7C%20Amharic-orange)](#)
 
 🌐 **Live Application URL:** [https://sauticare.onrender.com](https://sauticare.onrender.com)  
 📱 **PWA Installable:** Open the link in mobile Chrome/Safari and tap *"Add to Home Screen"*.
 
-> **An oral-first voice navigator and lifeline for African elders using smartphones. Empowers seniors to navigate everyday apps (WhatsApp, YouTube gospel, Camera, phone settings), manage mobile money safely (M-Pesa), and summon 24/7 emergency help—entirely in authentic East African Swahili with offline resilience.**
+> **An oral-first voice navigator and lifeline for African elders using smartphones. Empowers seniors across Africa to navigate everyday smartphone apps (WhatsApp voice notes, YouTube gospel, Camera, phone settings), manage mobile money safely (M-Pesa, OPay, eWallet, Telebirr), and summon 24/7 emergency help—in 4 major African languages with offline resilience.**
 
 Built for the **AssemblyAI - Voice Agent Hackathon** on [lablab.ai](https://lablab.ai/ai-hackathons/assemblyai-voice-agent-hackathon).
 
 ---
 
+## 🌍 Supported African Regions & Languages
+
+SautiCare bridges the digital literacy divide for over 100 million African elders across 4 key regional zones:
+
+| Region | Primary Language & Dialect | Flag | Neural Voices | Supported Mobile Money & USSD |
+| :--- | :--- | :---: | :--- | :--- |
+| **East Africa** | **Kiswahili** (Kenya, Tanzania) | 🇰🇪 🇹🇿 | `Zuri`, `Rafiki`, `Daudi`, `Rehema` | M-Pesa (`*334#`), Safaricom (`*144#`) |
+| **West Africa** | **Nigerian Pidgin** (Nigeria) | 🇳🇬 | `Ezinne`, `Abeo` | OPay / Transfers, MTN / Airtel (`*310#`) |
+| **Southern Africa** | **isiZulu** (South Africa) | 🇿🇦 | `Thando`, `Themba` | eWallet, Vodacom / MTN (`*136#`) |
+| **Horn of Africa** | **አማርኛ / Amharic** (Ethiopia) | 🇪🇹 | `Mekdes (መቅደስ)`, `Ameha (አመሃ)` | Telebirr (`*127#`), Ethio Telecom (`*804#`) |
+
+---
+
 ## 🌍 The Problem in Africa
 
-1. **Digital Exclusion of the Elderly:** Rapid smartphone adoption in East Africa (Kenya, Tanzania, Uganda, Rwanda) has flooded the market with affordable Android devices. However, digital literacy among aging parents and grandparents (*Wazee*) remains low. Complex nested menus, tiny text, and unfamiliar icons create anxiety.
-2. **Oral-First Communication:** African elders overwhelmingly communicate through voice notes (e.g. WhatsApp audio) rather than typing.
-3. **Mobile Money (M-Pesa) Anxiety:** Elders frequently rely on remittances from children in the city, but fear sending money to the wrong recipient or being scammed via complex USSD prompts (`*334#`).
+1. **Digital Exclusion of the Elderly:** Rapid smartphone adoption across Africa has flooded the market with affordable Android devices. However, digital literacy among aging parents and grandparents remains low. Complex nested menus, tiny text, and unfamiliar icons create anxiety.
+2. **Oral-First Communication:** African elders overwhelmingly communicate through voice notes (e.g. WhatsApp audio) rather than typing text messages.
+3. **Mobile Money Anxiety:** Elders frequently rely on remittances from children in the city, but fear sending money to the wrong recipient or being scammed via complex USSD prompts (`*334#`, `*127#`).
 4. **Alone During Emergencies:** In medical crises (falls, hypertension, sudden illness), elders often cannot unlock their phone or find contacts in time.
-5. **The "Zero Bundle" Reality (Offline Need):** Cellular data bundles run out frequently or drop in rural areas. Emergencies and M-Pesa operations cannot rely solely on active 4G data.
+5. **The "Zero Bundle" Reality (Offline Need):** Cellular data bundles run out frequently or drop in rural areas. Emergencies and mobile money operations cannot rely solely on active 4G data.
 
 ---
 
