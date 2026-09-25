@@ -1,2 +1,139 @@
-# SautiCare
-A voice agent for old people in Africa using smart phones but do not have the technological know-how when navigating through most of the functions. This is very needful when such a person is using a feature for the first time and is alone. It will help such people during emergencies. Uses local African languages using the available dialect.  
+# 🎙️ SautiCare — Sauti ya Wazee (Voice Assistant for African Elders)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Technology](https://img.shields.io/badge/Powered%20By-AssemblyAI-blue)](https://www.assemblyai.com/)
+[![Language](https://img.shields.io/badge/Language-Kiswahili%20(East%20Africa)-orange)](#)
+
+> **A voice agent for elderly people in Africa using smartphones who lack the technological know-how when navigating through phone functions. This is essential when an elder is using a feature for the first time and is alone, providing life-saving assistance during emergencies using local African languages and dialects.**
+
+Built for the **AssemblyAI - Voice Agent Hackathon** on [lablab.ai](https://lablab.ai/ai-hackathons/assemblyai-voice-agent-hackathon).
+
+---
+
+## 🌍 The Problem in Africa
+
+1. **Digital Exclusion of the Elderly:** Rapid smartphone adoption in East Africa (Kenya, Tanzania, Uganda, Rwanda) has flooded the market with affordable Android devices. However, digital literacy among aging parents and grandparents (*Wazee*) remains low. Complex nested menus, tiny text, and unfamiliar icons create anxiety.
+2. **Oral-First Communication:** African elders overwhelmingly communicate through voice notes (e.g. WhatsApp audio) rather than typing.
+3. **Mobile Money (M-Pesa) Anxiety:** Elders frequently rely on remittances from children in the city, but fear sending money to the wrong recipient or being scammed via complex USSD prompts (`*334#`).
+4. **Alone During Emergencies:** In medical crises (falls, hypertension, sudden illness), elders often cannot unlock their phone or find contacts in time.
+5. **The "Zero Bundle" Reality (Offline Need):** Cellular data bundles run out frequently or drop in rural areas. Emergencies and M-Pesa operations cannot rely solely on active 4G data.
+
+---
+
+## 💡 The SautiCare Solution
+
+SautiCare solves these challenges through a **Hybrid Dual-Engine Architecture**:
+
+* **🟢 Online Engine (Powered by AssemblyAI):**
+  * Real-time streaming Speech-to-Text over WebSockets.
+  * Robust understanding of East African Swahili accents and natural code-switching (Swahili + Sheng / English).
+  * Culturally respectful persona (*Heshima kwa Wazee*) greeting elders properly (*"Shikamoo Mzee/Mama"*).
+  * Automated tool calling for device control, M-Pesa verification, and emergency dispatch.
+
+* **🟡 Offline Safety Fail-Safe (Zero Data / Rural Mode):**
+  * When mobile internet is disconnected, SautiCare automatically switches to **Offline Safety Mode**.
+  * **Emergency SOS:** Direct hardware trigger for **GSM voice dialing (`tel:`)** and **SMS with GPS coordinates** with 0MB data required.
+  * **M-Pesa USSD Guide:** Uses pre-cached Swahili voice prompts to guide elders step-by-step through offline USSD codes (`*334#` / SIM Toolkit).
+
+---
+
+## 🏗️ Architecture
+
+```
+                    ┌──────────────────────────────────────────────┐
+                    │     Elderly-Friendly Smartphone Client       │
+                    │  • Giant "BONYEZA KUONGEA" Mic Button        │
+                    │  • High-Contrast AAA Accessibility UI        │
+                    │  • One-Touch "DHARURA (SOS)" Button          │
+                    └───────────────────────┬──────────────────────┘
+                                            │
+                             [Network Connectivity Check]
+                                   ┌────────┴────────┐
+                (Online / Data OK) ▼                 ▼ (Offline / No Data)
+┌───────────────────────────────────────────┐    ┌───────────────────────────┐
+│ Cloud Voice Engine (AssemblyAI)           │    │ Offline Safety Engine     │
+│ • Sub-second WebSocket Streaming STT      │    │ • Pre-cached Swahili Audio│
+│ • Universal-3 Pro Accent Resilience       │    │ • Direct GSM Cellular SOS │
+│ • Conversational Tool Router:             │    │ • Direct GPS SMS Intent   │
+│   - `trigger_emergency_sos`               │    │ • USSD *334# Step Guide   │
+│   - `guide_mpesa_transfer`                │    └───────────────────────────┘
+│   - `control_phone_feature` (Torch, Call) │                  │
+└─────────────────────┬─────────────────────┘                  │
+                      │                                        │
+                      └──────────────────┬─────────────────────┘
+                                         ▼
+                     [Culturally Respectful Swahili Speech &
+                         Visual Confirmation Cards]
+```
+
+---
+
+## 🎯 Demo Scenarios
+
+### 1. 🚨 Emergency Fall / Illness Scenario
+* **User says:** *"Nisaidie, nimeanguka chini na siwezi kusimama"* (Help, I fell down and cannot stand)
+* **Agent responds:** *"Tulia Mzee wangu, usijali. Nimeshatuma ujumbe wa dharura pamoja na mahali ulipo kwa mwanao Juma, na sasa ninapiga simu ya msaada mara moja."*
+* **Action:** Dispatches emergency SMS with live GPS coordinates and initiates direct cellular phone call.
+
+### 2. 💸 Safe M-Pesa Remittance Scenario
+* **User says:** *"Nataka kutuma pesa kwa mtoto wangu Mary"* (I want to send money to my child Mary)
+* **Agent responds:** *"Shikamoo Mama. Kwenye M-Pesa, usalama wako ni muhimu sana. Kabla hujaweka nambari yako ya siri, hakikisha jina la mpokeaji linaonekana wazi..."*
+* **Action:** Displays high-contrast step-by-step verification card and guides them through safe USSD (`*334#`).
+
+### 3. 🔦 Everyday Accessibility (Flashlight & Phone Features)
+* **User says:** *"Washa tochi, kuko giza"* (Turn on the torch, it's dark)
+* **Agent responds:** *"Tayari nimewasha tochi ya simu yako ili uweze kuona vizuri gizani."*
+* **Action:** Toggles device flashlight simulation and confirms orally.
+
+---
+
+## 🚀 Quickstart & Setup
+
+### Prerequisites
+* Python 3.10+
+* Free AssemblyAI API Key ([Claim Hackathon Credits](https://www.assemblyai.com/dashboard/signup?utm_source=event&utm_medium=credit-grant&utm_campaign=lablab_virtual_hackathon))
+
+### Installation
+```bash
+# Clone the repository
+git clone https://github.com/ondinookello96/SautiCare.git
+cd SautiCare
+
+# Create and activate virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .\.venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure your API key
+cp .env.example .env
+# Edit .env and paste your ASSEMBLYAI_API_KEY
+```
+
+### Running the Application
+```bash
+python main.py
+```
+Open your browser at: **`http://localhost:8000`**
+
+### Running the Tests
+```bash
+python -m unittest discover tests
+```
+
+---
+
+## 🏆 Hackathon Evaluation Alignment
+
+| Judging Criteria (25% each) | How SautiCare Excels |
+| :--- | :--- |
+| **Application of Technology** | Deep integration of AssemblyAI Realtime Streaming STT, sub-second latency, voice session management, and JSON tool calling. |
+| **Originality** | An oral-first Swahili voice agent specifically engineered around the African elder digital divide, code-switching, and cultural honorifics. |
+| **Business Value** | Solves a massive humanitarian and fintech inclusion problem for 50M+ aging Africans and their diaspora families. |
+| **Presentation** | High-contrast elder-accessible UI, clear bilingual subtitles for global judges, and comprehensive documentation. |
+
+---
+
+## 📄 License
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.

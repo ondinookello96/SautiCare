@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SautiCare - Msaidizi wa Wazee wa Sauti (Voice Assistant)</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="phone-frame">
+    <!-- Header with Connectivity Indicator -->
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-icon">🎙️</span>
+        <div>
+          <h1 class="brand-title">SautiCare</h1>
+          <p class="brand-subtitle">Msaidizi wa Sauti kwa Wazee</p>
+        </div>
+      </div>
+      <div id="connectivity-badge" class="status-badge online">
+        <span class="status-dot"></span>
+        <span id="connectivity-text">Mtandaoni (AssemblyAI)</span>
+      </div>
+    </header>
+
+    <!-- Main Live Screen Area -->
+    <main class="app-content">
+      <!-- Greeting / Status Banner -->
+      <section class="elder-salutation">
+        <h2 id="greeting-title">Shikamoo Mzee wetu!</h2>
+        <p id="greeting-sub">SautiCare iko tayari kukusikiliza na kukusaidia wakati wowote.</p>
+      </section>
+
+      <!-- Visual Agent Response Card -->
+      <section id="response-card" class="response-card welcome-card">
+        <div class="card-header">
+          <span id="card-badge" class="card-badge">KARIBU</span>
+          <span id="speaker-indicator" class="speaker-icon">🔊</span>
+        </div>
+        <p id="swahili-reply" class="swahili-text">
+          Bonyeza kitufe kikubwa cha kijani hapa chini na uzungumze kwa Kiswahili. Unaweza kuomba msaada wa simu, dharura, au M-Pesa.
+        </p>
+        <p id="english-sub" class="english-subtitle">
+          (Press the big green button below and speak in Swahili. You can ask for phone assistance, emergencies, or M-Pesa.)
+        </p>
+        <div id="action-details" class="action-details"></div>
+      </section>
+
+      <!-- One-Tap Emergency Trigger -->
+      <section class="emergency-section">
+        <button id="btn-emergency-sos" class="btn-sos" aria-label="Bonyeza hapa kwa msaada wa haraka wa dharura">
+          <span class="sos-icon">🚨</span>
+          <div class="sos-text">
+            <strong>MSAADA WA DHARURA (SOS)</strong>
+            <small>Piga simu na tuma eneo mara moja</small>
+          </div>
+        </button>
+      </section>
+
+      <!-- Quick Demo Triggers (Designed for Ease of Demonstration) -->
+      <section class="quick-scenarios">
+        <div class="scenarios-title">Chagua au sema kwa sauti:</div>
+        <div class="pills-grid">
+          <button class="pill-btn" data-query="Nisaidie, nimeanguka chini naumwa">
+            🚑 "Nimeanguka chini"
+          </button>
+          <button class="pill-btn" data-query="Nataka kutuma pesa kwa M-Pesa">
+            💸 "Kutuma M-Pesa"
+          </button>
+          <button class="pill-btn" data-query="Washa tochi ya simu kuko giza">
+            🔦 "Washa Tochi"
+          </button>
+          <button class="pill-btn" data-query="Piga simu kwa mwanangu Juma">
+            📞 "Piga Simu kwa Juma"
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Giant Voice Control Bar -->
+    <footer class="app-footer">
+      <div id="waveform" class="waveform-container hidden">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+
+      <button id="btn-mic" class="btn-mic" aria-label="Bonyeza kuanza kuongea">
+        <span class="mic-icon">🎤</span>
+        <span id="mic-label">BONYEZA KUONGEA</span>
+      </button>
+
+      <div class="footer-hint">
+        Inatumia <strong>AssemblyAI Voice Tech</strong> &bull; Hufanya kazi Nje ya Mtandao
+      </div>
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
