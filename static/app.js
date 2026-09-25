@@ -42,6 +42,7 @@ class SautiCareApp {
     this.setupConnectivityMonitor();
     this.setupEventListeners();
     this.setupAccessibilityControls();
+    this.registerServiceWorker();
     this.initWebSocket();
     this.initSpeechRecognition();
   }
@@ -77,7 +78,47 @@ class SautiCareApp {
     }
   }
 
-  // 2. Connectivity Monitoring (Offline / Online Resilience)
+  // 2. Service Worker Registration & PWA Install Listener
+  registerServiceWorker() {
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/sw.js").then((reg) => {
+          console.log("[SautiCare] Service Worker registered with scope:", reg.scope);
+        }).catch((err) => {
+          console.warn("[SautiCare] Service Worker registration failed:", err);
+        });
+      });
+    }
+
+    let deferredPrompt = null;
+    const installBanner = document.getElementById("pwa-install-banner");
+    const btnInstall = document.getElementById("btn-install-pwa");
+
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (installBanner) installBanner.classList.remove("hidden");
+    });
+
+    if (btnInstall) {
+      btnInstall.addEventListener("click", async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log("[SautiCare PWA] User response:", outcome);
+          deferredPrompt = null;
+          if (installBanner) installBanner.classList.add("hidden");
+        }
+      });
+    }
+
+    window.addEventListener("appinstalled", () => {
+      console.log("[SautiCare PWA] App was successfully installed!");
+      if (installBanner) installBanner.classList.add("hidden");
+    });
+  }
+
+  // 3. Connectivity Monitoring (Offline / Online Resilience)
   setupConnectivityMonitor() {
     const updateStatus = () => {
       this.isOnline = navigator.onLine;

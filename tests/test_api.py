@@ -49,5 +49,26 @@ class TestSautiCareAPI(unittest.TestCase):
         self.assertIn("SautiCare", response.text)
         self.assertIn("BONYEZA KUONGEA", response.text)
 
+    def test_pwa_manifest(self):
+        response = self.client.get("/manifest.json")
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertEqual(data["name"], "SautiCare - Msaidizi wa Wazee wa Sauti")
+        self.assertEqual(data["display"], "standalone")
+        self.assertEqual(data["theme_color"], "#059669")
+
+    def test_service_worker(self):
+        response = self.client.get("/sw.js")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("sauticare-v1", response.text)
+        self.assertIn("addEventListener", response.text)
+
+    def test_post_tts_endpoint(self):
+        response = self.client.post("/api/tts", json={"text": "Habari za asubuhi Mzee wangu", "voice": "sw-ke-zuri"})
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertIn("audio_url", data)
+        self.assertEqual(data["voice"], "sw-ke-zuri")
+
 if __name__ == "__main__":
     unittest.main()

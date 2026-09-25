@@ -1,0 +1,49 @@
+{
+  "id": "/?source=pwa",
+  "name": "SautiCare - Msaidizi wa Wazee wa Sauti",
+  "short_name": "SautiCare",
+  "description": "Msaidizi wa sauti wa Kiswahili kwa wazee barani Afrika kutumia simu, Watsapu, Yutubu, M-Pesa, na msaada wa dharura.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAFAFC",
+  "theme_color": "#059669",
+  "categories": ["accessibility", "utilities", "communication", "lifestyle"],
+  "icons": [
+    {
+      "src": "/static/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Msaada wa Dharura (SOS)",
+      "short_name": "Dharura",
+      "description": "Piga simu na tuma eneo la dharura",
+      "url": "/?intent=sos",
+      "icons": [{ "src": "/static/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "M-Pesa na Fedha",
+      "short_name": "M-Pesa",
+      "description": "Msaada wa kutuma pesa kwa usalama",
+      "url": "/?intent=mpesa",
+      "icons": [{ "src": "/static/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

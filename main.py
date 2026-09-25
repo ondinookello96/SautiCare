@@ -54,6 +54,20 @@ async def get_index():
             return HTMLResponse(f.read())
     return HTMLResponse("<h1>SautiCare Server Running</h1><p>Static UI not yet loaded.</p>")
 
+@app.get("/manifest.json")
+async def get_manifest():
+    manifest_file = static_dir / "manifest.json"
+    if manifest_file.exists():
+        return FileResponse(manifest_file, media_type="application/manifest+json")
+    return JSONResponse(status_code=404, content={"detail": "Manifest not found"})
+
+@app.get("/sw.js")
+async def get_service_worker():
+    sw_file = static_dir / "sw.js"
+    if sw_file.exists():
+        return FileResponse(sw_file, media_type="application/javascript")
+    return JSONResponse(status_code=404, content={"detail": "Service Worker not found"})
+
 @app.get("/api/health")
 async def health_check():
     has_aai_key = bool(assemblyai_key and assemblyai_key != "your_assemblyai_api_key_here")
@@ -87,6 +101,16 @@ async def get_tts_audio(text: str = Query(..., description="Swahili text to synt
         file_path = static_dir / "audio_cache" / Path(audio_url).name
         if file_path.exists():
             return FileResponse(file_path, media_type="audio/mpeg")
+    return JSONResponse({"error": "Failed to synthesize Swahili audio"}, status_code=500)
+
+@app.post("/api/tts")
+async def post_tts_audio(req: TextQueryRequest):
+    """
+    Synthesize authentic Swahili speech for JSON POST requests and return audio URL.
+    """
+    audio_url = await tts_service.get_or_generate_audio(req.text, req.voice)
+    if audio_url:
+        return {"audio_url": audio_url, "text": req.text, "voice": req.voice}
     return JSONResponse({"error": "Failed to synthesize Swahili audio"}, status_code=500)
 
 @app.post("/api/process-text")
