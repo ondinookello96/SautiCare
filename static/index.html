@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>SautiCare - Msaidizi wa Wazee wa Sauti (Voice Assistant)</title>
+  <title>SautiCare - Msaidizi wa Wazee wa Sauti</title>
   <link rel="stylesheet" href="/static/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,14 +26,14 @@
       </div>
     </header>
 
-    <!-- Voice Selection Toolbar (Kenyan & Tanzanian Accents) -->
+    <!-- Voice Selection Toolbar (Pure Swahili - Zero English) -->
     <div class="voice-toolbar">
-      <label for="voice-select" class="voice-label">Sauti ya Msaidizi (Accent):</label>
+      <label for="voice-select" class="voice-label">Chagua Sauti:</label>
       <select id="voice-select" class="voice-dropdown" aria-label="Chagua sauti ya Kiswahili">
-        <option value="sw-ke-zuri" selected>🇰🇪 Zuri (Mwanamke wa Kenya)</option>
-        <option value="sw-ke-rafiki">🇰🇪 Rafiki (Mwanaume wa Kenya)</option>
-        <option value="sw-tz-daudi">🇹🇿 Daudi (Mwanaume wa Tanzania)</option>
-        <option value="sw-tz-rehema">🇹🇿 Rehema (Mwanamke wa Tanzania)</option>
+        <option value="sw-ke-zuri" selected>🇰🇪 Zuri (Sauti ya Kike - Kenya)</option>
+        <option value="sw-ke-rafiki">🇰🇪 Rafiki (Sauti ya Kiume - Kenya)</option>
+        <option value="sw-tz-daudi">🇹🇿 Daudi (Sauti ya Kiume - Tanzania)</option>
+        <option value="sw-tz-rehema">🇹🇿 Rehema (Sauti ya Kike - Tanzania)</option>
       </select>
     </div>
 
@@ -42,7 +42,7 @@
       <!-- Greeting / Status Banner -->
       <section class="elder-salutation">
         <h2 id="greeting-title">Shikamoo Mzee wetu!</h2>
-        <p id="greeting-sub">SautiCare inazungumza Kiswahili halisi cha Afrika Mashariki kwa sauti kubwa na ya utulivu.</p>
+        <p id="greeting-sub">SautiCare inazungumza Kiswahili fasaha kwa sauti kubwa na ya heshima.</p>
       </section>
 
       <!-- Visual Agent Response Card -->
@@ -54,10 +54,10 @@
           </button>
         </div>
         <p id="swahili-reply" class="swahili-text">
-          Bonyeza kitufe kikubwa cha kijani hapa chini na uzungumze kwa Kiswahili. SautiCare itakusikiliza na kukujibu kwa Kiswahili fasaha.
+          Bonyeza kitufe kikubwa cha kijani hapa chini na uzungumze kwa Kiswahili. SautiCare itakusaidia kutumia simu yako au kupiga simu ya dharura.
         </p>
         <p id="english-sub" class="english-subtitle">
-          (Press the big green button below and speak in Swahili. SautiCare will listen and reply in authentic East African Swahili.)
+          (Press the big green button below and speak in Swahili. SautiCare will assist with phone features, M-Pesa, or emergency calls.)
         </p>
         <div id="action-details" class="action-details"></div>
       </section>
@@ -81,7 +81,7 @@
             🚑 "Nimeanguka chini"
           </button>
           <button class="pill-btn" data-query="Nataka kutuma pesa kwa M-Pesa">
-            💸 "Kutuma M-Pesa"
+            💸 "Kutuma Pesa"
           </button>
           <button class="pill-btn" data-query="Washa tochi ya simu kuko giza">
             🔦 "Washa Tochi"
@@ -107,7 +107,7 @@
       </button>
 
       <div class="footer-hint">
-        Sauti ya Kiswahili: <strong>Lafudhi ya Kenya / Tanzania</strong> &bull; Sauti Kubwa kwa Wazee
+        Kiswahili Fasaha cha Afrika Mashariki &bull; Sauti Kubwa kwa Wazee
       </div>
     </footer>
   </div>

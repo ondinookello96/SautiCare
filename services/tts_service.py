@@ -1,10 +1,12 @@
 """
 SautiCare Native East African Swahili Neural TTS Service
-Generates authentic Kenyan and Tanzanian Swahili speech with boosted volume (+35%)
-and elder-friendly pacing (-10%) using East African Neural Voices.
+Generates authentic Kenyan and Tanzanian Swahili speech with boosted volume (+40%)
+and elder-friendly pacing (-8%) using East African Neural Voices.
+Cleans emojis, abbreviations, and symbols so speech sounds 100% natural and fluid.
 """
 
 import os
+import re
 import hashlib
 import asyncio
 import logging
@@ -23,14 +25,46 @@ EAST_AFRICAN_VOICES = {
     "sw-tz-rehema": "sw-TZ-RehemaNeural",  # Tanzanian Female (Clear, melodious)
 }
 
+def clean_text_for_swahili_tts(text: str) -> str:
+    """
+    Cleans up emojis, English technical acronyms, and symbols
+    so the East African TTS voice pronounces everything naturally in Swahili.
+    """
+    t = text
+
+    # Remove all emojis
+    t = re.sub(r'[\U00010000-\U0010ffff]', '', t)
+    t = re.sub(r'[^\w\s.,!?:;\'"–-]', ' ', t)
+
+    # Phonetic replacements for symbols & acronyms to prevent English phonetic butcher
+    replacements = [
+        (r'\bM-Pesa\b', 'Mpesa'),
+        (r'\bMpesa\b', 'Em-pesa'),
+        (r'\bSMS\b', 'ujumbe'),
+        (r'\bPIN\b', 'namba ya siri'),
+        (r'\bUSSD\b', 'huduma ya simu'),
+        (r'\bWhatsApp\b', 'Watsapu'),
+        (r'\*334#', 'nyota tatu tatu nne reli'),
+        (r'85%', 'asilimia themanini na tano'),
+        (r'100%', 'asilimia mia moja'),
+        (r'\(.*?\)', ''), # Remove text inside brackets like (85%)
+    ]
+
+    for pattern, repl in replacements:
+        t = re.sub(pattern, repl, t, flags=re.IGNORECASE)
+
+    # Clean multiple spaces
+    t = re.sub(r'\s+', ' ', t).strip()
+    return t
+
 class TTSService:
     def __init__(self, cache_dir: Optional[Path] = None):
         self.default_voice_key = "sw-ke-zuri"
         self.default_voice = EAST_AFRICAN_VOICES[self.default_voice_key]
-        # Loudness boosted for older ears: +35% volume
-        self.volume = "+35%"
-        # Slightly slower cadence for elder comprehension: -10% speed
-        self.rate = "-10%"
+        # Loudness boosted for older ears: +40% volume
+        self.volume = "+40%"
+        # Slightly slower cadence for elder comprehension: -8% speed
+        self.rate = "-8%"
         
         self.cache_dir = cache_dir or (Path(__file__).parent.parent / "static" / "audio_cache")
         self.cache_dir.mkdir(parents=True, exist_ok=True)
@@ -39,7 +73,7 @@ class TTSService:
         """
         Synthesizes authentic Swahili audio and returns the URL path to the cached MP3 file.
         """
-        clean_text = text.strip()
+        clean_text = clean_text_for_swahili_tts(text)
         if not clean_text:
             return ""
 

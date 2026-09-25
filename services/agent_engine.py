@@ -19,13 +19,13 @@ MAADILI NA SAUTI YAKO (PERSONA):
 MAENEO YA MSINGI (CORE AREAS):
 1. Dharura (Emergency SOS): Mzee akianguka au akiwa mgonjwa peke yake nyumbani.
 2. M-Pesa / Pesa kwa Simu: Kumsaidia kutuma pesa au kuangalia salio bila hofu ya kutuma kwa nambari isiyo sahihi. Kila mara muulize jina la mpokeaji ili athibitishe kabla ya kutuma.
-3. Matumizi ya Simu: Kuwasha tochi (flashlight) gizani, kupiga simu kwa watoto/familia, kusoma ujumbe, au kurekebisha sauti ya simu.
+3. Matumizi ya Simu: Kuwasha tochi gizani, kupiga simu kwa watoto/familia, kusoma ujumbe, au kurekebisha sauti ya simu.
 """
 
 class AgentEngine:
     def __init__(self):
         self.emergency_contact = {
-            "name": "Mwanangu Juma (Child)",
+            "name": "Mwanangu Juma",
             "phone": "+254712345678",
             "relationship": "Mwanafamilia wa karibu"
         }
@@ -33,7 +33,7 @@ class AgentEngine:
     def process_swahili_intent(self, text: str) -> Dict[str, Any]:
         """
         Analyze transcribed Swahili speech, classify intent, and execute the corresponding tool.
-        Supports natural code-switching (Swahili + English/Sheng terms).
+        Supports natural code-switching (Swahili + Sheng / English terms).
         """
         lower = text.lower().strip()
 
@@ -45,7 +45,7 @@ class AgentEngine:
         if is_greeting and not has_other_intent:
             return {
                 "action": "greeting",
-                "swahili_response": "Marahaba Mzee wangu! Mimi ni SautiCare, msaidizi wako wa karibu. Niko hapa kukusaidia kutumia simu yako, kuangalia M-Pesa, au kupiga simu kwa dharura. Je, nikusaidie na nini leo?",
+                "swahili_response": "Marahaba Mzee wangu! Mimi ni SautiCare, msaidizi wako wa karibu. Niko hapa kukusaidia kutumia simu yako, kuangalia Em-pesa, au kupiga simu kwa dharura. Nikusaidie na nini leo?",
                 "english_translation": "Greetings elder! I am SautiCare, your voice assistant. I am here to help you navigate your phone, check M-Pesa, or make emergency calls. How may I help you today?",
                 "visual_card": {
                     "type": "welcome",
@@ -62,7 +62,6 @@ class AgentEngine:
         has_mpesa = any(kw in lower for kw in mpesa_keywords)
 
         # 3. Emergency Intent Detection
-        # Words like 'nisaidie' mean 'help me', but if combined with mpesa/torch, it's not SOS.
         pure_emergency_words = [
             "dharura", "nimeanguka", "anguka", "naumwa", "vibaya", "hospitali", 
             "kizunguzungu", "damu", "emergency", "kuanguka", "peke yangu", "sijisikii vizuri"
@@ -99,8 +98,8 @@ class AgentEngine:
         # Default fallback guidance
         return {
             "action": "guidance",
-            "swahili_response": f"Nimekuelewa. Nimesikia: '{text}'. Unaweza kuniambia kwa urahisi: 'Washa tochi', 'Nisaidie na M-Pesa', au ukipata shida sema tu 'Nisaidie dharura'.",
-            "english_translation": f"I understood you. I heard: '{text}'. You can simply tell me: 'Turn on torch', 'Help with M-Pesa', or in trouble say 'Emergency help'.",
+            "swahili_response": f"Nimekuelewa vizuri Mzee wangu. Unaweza kuniambia kwa urahisi: Washa tochi, Nisaidie na Em-pesa, au ukipata shida sema tu Nisaidie dharura.",
+            "english_translation": f"I understood you well. You can simply tell me: Turn on torch, Help with M-Pesa, or in trouble say Emergency help.",
             "visual_card": {
                 "type": "suggestion",
                 "title": "Mifano ya Kusema",
@@ -122,7 +121,7 @@ class AgentEngine:
         return {
             "action": "emergency_sos",
             "is_emergency": True,
-            "swahili_response": "Tulia Mzee wangu, usijali wala usiogope. Nimeshatuma ujumbe wa dharura pamoja na mahali ulipo kwa mwanao Juma, na sasa ninapiga simu ya msaada mara moja.",
+            "swahili_response": "Tulia Mzee wangu, usijali wala usiogope. Nimeshatuma ujumbe mfupi wa dharura pamoja na mahali ulipo kwa mwanao Juma, na sasa ninapiga simu ya msaada mara moja.",
             "english_translation": "Stay calm elder, do not be afraid. I have already dispatched an emergency SMS with your live location to your child Juma, and I am calling for help immediately.",
             "visual_card": {
                 "type": "sos_card",
@@ -142,8 +141,8 @@ class AgentEngine:
         """
         return {
             "action": "mpesa_guide",
-            "swahili_response": "Shikamoo Mama. Kwenye M-Pesa, usalama wako ni muhimu sana. Kabla hujaweka nambari yako ya siri, hakikisha jina la mpokeaji linaonekana wazi kwenye skrini. Je, unataka nimuongoze kwa nambari ya USSD au programu ya M-Pesa?",
-            "english_translation": "Greetings Mama. On M-Pesa, your safety is very important. Before entering your secret PIN, always ensure the recipient's name is clearly shown. Shall I guide you via USSD (*334#) or the M-Pesa app?",
+            "swahili_response": "Shikamoo Mama. Kwenye Em-pesa, usalama wako ni muhimu sana. Piga nyota tatu tatu nne reli kwenye simu yako, kisha uhakikishe jina la mpokeaji linaonekana wazi kwenye skrini kabla ya kuweka namba yako ya siri.",
+            "english_translation": "Greetings Mama. On M-Pesa, your safety is very important. Dial star 3 3 4 hash on your phone, then verify the recipient's name is clearly shown on screen before entering your secret PIN.",
             "visual_card": {
                 "type": "mpesa_safety",
                 "title": "Hatua Salama za M-Pesa",
@@ -188,7 +187,7 @@ class AgentEngine:
         elif action == "call_family":
             return {
                 "action": "call_family",
-                "swahili_response": f"Ninampigia simu mwanao {self.emergency_contact['name']} sasa hivi. Shikilia simu sikioni.",
+                "swahili_response": f"Ninampigia simu mwanao {self.emergency_contact['name']} sasa hivi. Shikilia simu sikioni mwako.",
                 "english_translation": f"I am calling your child {self.emergency_contact['name']} right now. Hold the phone to your ear.",
                 "visual_card": {
                     "type": "call_dialer",
@@ -200,7 +199,7 @@ class AgentEngine:
         elif action == "check_battery":
             return {
                 "action": "check_battery",
-                "swahili_response": "Betri ya simu yako iko asilimia themanini na tano (85%). Chaji inatosha kabisa kwa siku nzima ya leo.",
+                "swahili_response": "Betri ya simu yako iko asilimia themanini na tano. Chaji inatosha kabisa kwa siku nzima ya leo.",
                 "english_translation": "Your phone's battery is at 85%. You have plenty of charge for the rest of today.",
                 "visual_card": {
                     "type": "battery_card",
@@ -211,8 +210,8 @@ class AgentEngine:
         elif action == "adjust_volume":
             return {
                 "action": "adjust_volume",
-                "swahili_response": "Nimeongeza sauti ya simu hadi mwisho ili uweze kusikia vizuri kila kitu kinachosemwa.",
-                "english_translation": "I have raised your phone's volume to maximum so you can hear everything clearly.",
+                "swahili_response": "Nimeongeza sauti ya simu hadi mwisho kabisa ili uweze kusikia vizuri kila neno linalosemwa.",
+                "english_translation": "I have raised your phone's volume to maximum so you can hear every word clearly.",
                 "visual_card": {
                     "type": "volume_card",
                     "title": "Sauti Imeongezwa 🔊",
@@ -221,6 +220,6 @@ class AgentEngine:
             }
         return {
             "action": "unknown",
-            "swahili_response": "Nipo hapa kukusaidia. Niambie chochote unachohitaji kuhusu simu yako.",
-            "english_translation": "I am here to help you. Tell me anything you need with your phone."
+            "swahili_response": "Nipo hapa kukusaidia Mzee wangu. Niambie chochote unachohitaji kwenye simu yako.",
+            "english_translation": "I am here to help you elder. Tell me anything you need with your phone."
         }

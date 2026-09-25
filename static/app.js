@@ -66,7 +66,7 @@ class SautiCareApp {
 
     window.addEventListener("offline", () => {
       updateStatus();
-      this.playNativeSwahiliAudio("Uko nje ya mtandao. Simu za dharura na M-Pesa bado zinafanya kazi bila data.");
+      this.playNativeSwahiliAudio("Uko nje ya mtandao. Simu za dharura na huduma ya simu bado zinafanya kazi bila bando.");
     });
 
     updateStatus();
@@ -95,10 +95,17 @@ class SautiCareApp {
       }
     });
 
-    // When voice selector changes, speak greeting in newly selected accent
+    // When voice selector changes, greet in pure, natural Swahili (NO English words)
     this.voiceSelect.addEventListener("change", () => {
-      const selectedName = this.voiceSelect.options[this.voiceSelect.selectedIndex].text;
-      this.playNativeSwahiliAudio(`Umechagua sauti ya: ${selectedName}. Karibu sana.`);
+      const selected = this.getSelectedVoice();
+      const voiceGreetings = {
+        "sw-ke-zuri": "Shikamoo Mzee wangu! Mimi ni Zuri, niko hapa kukusaidia kwa upole na subira.",
+        "sw-ke-rafiki": "Jambo Mzee wetu! Mimi ni Rafiki, msaidizi wako wa sauti hapa Kenya.",
+        "sw-tz-daudi": "Habari za leo Mzee! Mimi ni Daudi, msaidizi wako wa sauti kutoka Tanzania.",
+        "sw-tz-rehema": "Habari yako Mzee wetu! Mimi ni Rehema, niko tayari kukusaidia na simu yako."
+      };
+      const text = voiceGreetings[selected] || "Marahaba, niko tayari kukusaidia.";
+      this.playNativeSwahiliAudio(text);
     });
   }
 
@@ -281,12 +288,12 @@ class SautiCareApp {
       this.renderDecision({
         action: "emergency_sos",
         is_emergency: true,
-        swahili_response: "Tulia Mzee wangu! Ujumbe wa dharura na eneo lako vimetumwa mara moja. Simu ya msaada inapigwa sasa hivi.",
-        english_translation: "Stay calm elder! An emergency SMS with your live GPS location has been dispatched, and emergency dialing is active.",
+        swahili_response: "Tulia Mzee wangu, usijali wala usiogope! Nimeshatuma ujumbe wa dharura na eneo lako mara moja. Simu ya msaada inapigwa sasa hivi.",
+        english_translation: "Stay calm elder, do not be afraid! An emergency SMS with your live GPS location has been dispatched, and emergency dialing is active.",
         visual_card: {
           type: "sos_card",
           status: "DHARURA IMETUMWA (SOS DISPATCHED)",
-          recipient: "Mwanangu Juma (Child)",
+          recipient: "Mwanangu Juma",
           phone: "+254712345678",
           location: "1°17'31.2\"S 36°49'10.8\"E (Nairobi, Kenya)",
           sms_preview: "DHARURA: Mzazi wako anahitaji msaada wa haraka nyumbani! Mahali: Nairobi. Piga simu mara moja.",
@@ -328,7 +335,7 @@ class SautiCareApp {
           <h4>🚨 Hali ya Dharura: ${card.status}</h4>
           <p><strong>Mpokeaji:</strong> ${card.recipient} (${card.phone})</p>
           <p><strong>Eneo (GPS):</strong> ${card.location}</p>
-          <p style="margin-top: 6px; font-style: italic; color: #DC2626;"><strong>Ujumbe wa SMS:</strong> "${card.sms_preview}"</p>
+          <p style="margin-top: 6px; font-style: italic; color: #DC2626;"><strong>Ujumbe:</strong> "${card.sms_preview}"</p>
         `;
       } else if (card.type === "mpesa_safety") {
         box.innerHTML = `
@@ -384,7 +391,7 @@ class SautiCareApp {
     this.audioPlayer.volume = 1.0;
     this.audioPlayer.src = url;
     this.audioPlayer.play().catch((err) => {
-      console.warn("Audio autoplay blocked by browser policy, tap speaker icon to play:", err);
+      console.warn("Autoplay blocked, user can tap speaker button:", err);
     });
   }
 
@@ -404,8 +411,8 @@ class SautiCareApp {
 
     this.renderDecision({
       action: "offline_guide",
-      swahili_response: "Niko hapa kukusaidia. Uko nje ya mtandao, lakini unaweza kupiga simu ya dharura au kutumia M-Pesa kwa *334#.",
-      english_translation: "I am here to help. You are offline, but you can make emergency calls or use M-Pesa via *334#.",
+      swahili_response: "Niko hapa kukusaidia Mzee wangu. Hata ukiwa nje ya mtandao, unaweza kupiga simu ya dharura au kutumia huduma ya simu ya nyota tatu tatu nne reli.",
+      english_translation: "I am here to help you elder. Even offline, you can make emergency calls or use mobile services via star 3 3 4 hash.",
       visual_card: {
         type: "device_action",
         title: "Hali ya Nje ya Mtandao (Offline)",
