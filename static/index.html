@@ -26,25 +26,38 @@
       </div>
     </header>
 
+    <!-- Voice Selection Toolbar (Kenyan & Tanzanian Accents) -->
+    <div class="voice-toolbar">
+      <label for="voice-select" class="voice-label">Sauti ya Msaidizi (Accent):</label>
+      <select id="voice-select" class="voice-dropdown" aria-label="Chagua sauti ya Kiswahili">
+        <option value="sw-ke-zuri" selected>🇰🇪 Zuri (Mwanamke wa Kenya)</option>
+        <option value="sw-ke-rafiki">🇰🇪 Rafiki (Mwanaume wa Kenya)</option>
+        <option value="sw-tz-daudi">🇹🇿 Daudi (Mwanaume wa Tanzania)</option>
+        <option value="sw-tz-rehema">🇹🇿 Rehema (Mwanamke wa Tanzania)</option>
+      </select>
+    </div>
+
     <!-- Main Live Screen Area -->
     <main class="app-content">
       <!-- Greeting / Status Banner -->
       <section class="elder-salutation">
         <h2 id="greeting-title">Shikamoo Mzee wetu!</h2>
-        <p id="greeting-sub">SautiCare iko tayari kukusikiliza na kukusaidia wakati wowote.</p>
+        <p id="greeting-sub">SautiCare inazungumza Kiswahili halisi cha Afrika Mashariki kwa sauti kubwa na ya utulivu.</p>
       </section>
 
       <!-- Visual Agent Response Card -->
       <section id="response-card" class="response-card welcome-card">
         <div class="card-header">
           <span id="card-badge" class="card-badge">KARIBU</span>
-          <span id="speaker-indicator" class="speaker-icon">🔊</span>
+          <button id="btn-replay-audio" class="speaker-btn" title="Sikiliza Tena kwa Sauti Kubwa" aria-label="Sikiliza tena">
+            🔊 <span class="speaker-label">Sikiliza</span>
+          </button>
         </div>
         <p id="swahili-reply" class="swahili-text">
-          Bonyeza kitufe kikubwa cha kijani hapa chini na uzungumze kwa Kiswahili. Unaweza kuomba msaada wa simu, dharura, au M-Pesa.
+          Bonyeza kitufe kikubwa cha kijani hapa chini na uzungumze kwa Kiswahili. SautiCare itakusikiliza na kukujibu kwa Kiswahili fasaha.
         </p>
         <p id="english-sub" class="english-subtitle">
-          (Press the big green button below and speak in Swahili. You can ask for phone assistance, emergencies, or M-Pesa.)
+          (Press the big green button below and speak in Swahili. SautiCare will listen and reply in authentic East African Swahili.)
         </p>
         <div id="action-details" class="action-details"></div>
       </section>
@@ -62,7 +75,7 @@
 
       <!-- Quick Demo Triggers (Designed for Ease of Demonstration) -->
       <section class="quick-scenarios">
-        <div class="scenarios-title">Chagua au sema kwa sauti:</div>
+        <div class="scenarios-title">Mifano: Bonyeza kusikiliza:</div>
         <div class="pills-grid">
           <button class="pill-btn" data-query="Nisaidie, nimeanguka chini naumwa">
             🚑 "Nimeanguka chini"
@@ -73,8 +86,8 @@
           <button class="pill-btn" data-query="Washa tochi ya simu kuko giza">
             🔦 "Washa Tochi"
           </button>
-          <button class="pill-btn" data-query="Piga simu kwa mwanangu Juma">
-            📞 "Piga Simu kwa Juma"
+          <button class="pill-btn" data-query="Betri ya simu ikoje leo?">
+            🔋 "Hali ya Betri"
           </button>
         </div>
       </section>
@@ -94,11 +107,12 @@
       </button>
 
       <div class="footer-hint">
-        Inatumia <strong>AssemblyAI Voice Tech</strong> &bull; Hufanya kazi Nje ya Mtandao
+        Sauti ya Kiswahili: <strong>Lafudhi ya Kenya / Tanzania</strong> &bull; Sauti Kubwa kwa Wazee
       </div>
     </footer>
   </div>
 
+  <audio id="native-audio-player" preload="auto"></audio>
   <script src="/static/app.js"></script>
 </body>
 </html>

@@ -34,7 +34,7 @@ body {
 .phone-frame {
   width: 100%;
   max-width: 440px;
-  min-height: 92vh;
+  min-height: 94vh;
   background-color: #FAFAFC;
   border-radius: 36px;
   box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
@@ -46,9 +46,8 @@ body {
 
 /* Header */
 .app-header {
-  padding: 20px 20px 14px;
+  padding: 18px 20px 12px;
   background: #FFFFFF;
-  border-bottom: 2px solid var(--border);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -75,6 +74,40 @@ body {
   font-size: 12px;
   font-weight: 700;
   color: var(--text-muted);
+}
+
+/* Voice Toolbar */
+.voice-toolbar {
+  background: #F8FAFC;
+  padding: 8px 20px;
+  border-top: 1px solid #E2E8F0;
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.voice-label {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+.voice-dropdown {
+  background: #FFFFFF;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 5px 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-main);
+  outline: none;
+  cursor: pointer;
+}
+
+.voice-dropdown:focus {
+  border-color: var(--primary);
 }
 
 /* Status Badge */
@@ -141,7 +174,7 @@ body {
 .elder-salutation p {
   font-size: 13px;
   font-weight: 600;
-  color: #3B82F6;
+  color: #2563EB;
   margin-top: 2px;
 }
 
@@ -182,9 +215,24 @@ body {
   color: var(--text-muted);
 }
 
-.speaker-icon {
-  font-size: 18px;
+.speaker-btn {
+  background: #F1F5F9;
+  border: 1.5px solid var(--border);
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--primary-dark);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.speaker-btn:hover {
+  background: #DCFCE7;
+  border-color: var(--primary);
 }
 
 .swahili-text {
@@ -318,12 +366,12 @@ body {
 /* Footer / Giant Microphone Button */
 .app-footer {
   background: #FFFFFF;
-  padding: 20px 20px 24px;
+  padding: 18px 20px 22px;
   border-top: 2px solid var(--border);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .btn-mic {
