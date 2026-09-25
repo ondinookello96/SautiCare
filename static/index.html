@@ -10,8 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="phone-frame">
-    <!-- Header with Connectivity Indicator -->
+  <div id="phone-container" class="phone-frame">
+    <!-- Header with Connectivity Indicator & Text Size Controller -->
     <header class="app-header">
       <div class="brand">
         <span class="brand-icon">🎙️</span>
@@ -20,9 +20,17 @@
           <p class="brand-subtitle">Msaidizi wa Sauti kwa Wazee</p>
         </div>
       </div>
-      <div id="connectivity-badge" class="status-badge online">
-        <span class="status-dot"></span>
-        <span id="connectivity-text">Mtandaoni (AssemblyAI)</span>
+      <div class="header-right">
+        <!-- Font Size Accessibility Switcher for Older Eyes -->
+        <div class="font-zoom-ctrl" title="Ukubwa wa Maandishi">
+          <button id="font-decrease" class="btn-font-zoom" aria-label="Punguza maandishi">A-</button>
+          <button id="font-default" class="btn-font-zoom active" aria-label="Maandishi ya kawaida">A</button>
+          <button id="font-increase" class="btn-font-zoom" aria-label="Kuza maandishi">A+</button>
+        </div>
+        <div id="connectivity-badge" class="status-badge online">
+          <span class="status-dot"></span>
+          <span id="connectivity-text">Mtandaoni</span>
+        </div>
       </div>
     </header>
 
@@ -42,7 +50,7 @@
       <!-- Greeting / Status Banner -->
       <section class="elder-salutation">
         <h2 id="greeting-title">Shikamoo Mzee wetu!</h2>
-        <p id="greeting-sub">SautiCare inazungumza Kiswahili fasaha kwa sauti kubwa na ya heshima.</p>
+        <p id="greeting-sub">SautiCare inakuongoza kutumia simu yako yote kwa Kiswahili fasaha na sauti kubwa.</p>
       </section>
 
       <!-- Visual Agent Response Card -->
@@ -54,10 +62,10 @@
           </button>
         </div>
         <p id="swahili-reply" class="swahili-text">
-          Bonyeza kitufe kikubwa cha kijani hapa chini na uzungumze kwa Kiswahili. SautiCare itakusaidia kutumia simu yako au kupiga simu ya dharura.
+          Bonyeza kitufe kikubwa cha kijani hapa chini na uzungumze kwa Kiswahili. SautiCare itakusaidia na Watsapu, Yutubu, picha, salio, au dharura.
         </p>
         <p id="english-sub" class="english-subtitle">
-          (Press the big green button below and speak in Swahili. SautiCare will assist with phone features, M-Pesa, or emergency calls.)
+          (Press the big green button below and speak in Swahili. SautiCare will assist with WhatsApp, YouTube gospel, photos, airtime, or emergencies.)
         </p>
         <div id="action-details" class="action-details"></div>
       </section>
@@ -68,26 +76,38 @@
           <span class="sos-icon">🚨</span>
           <div class="sos-text">
             <strong>MSAADA WA DHARURA (SOS)</strong>
-            <small>Piga simu na tuma eneo mara moja</small>
+            <small>Piga simu na tuma ujumbe wa eneo mara moja</small>
           </div>
         </button>
       </section>
 
-      <!-- Quick Demo Triggers (Designed for Ease of Demonstration) -->
+      <!-- Everyday Smartphone Features (Grouped for African Elders) -->
       <section class="quick-scenarios">
-        <div class="scenarios-title">Mifano: Bonyeza kusikiliza:</div>
+        <div class="scenarios-title">Chagua huduma unayotaka kuelekezwa:</div>
         <div class="pills-grid">
-          <button class="pill-btn" data-query="Nisaidie, nimeanguka chini naumwa">
-            🚑 "Nimeanguka chini"
+          <button class="pill-btn app-pill-wa" data-query="Nataka kutuma ujumbe wa sauti kwa Watsapu">
+            💬 <strong>Watsapu:</strong> Sauti
           </button>
-          <button class="pill-btn" data-query="Nataka kutuma pesa kwa M-Pesa">
-            💸 "Kutuma Pesa"
+          <button class="pill-btn app-pill-yt" data-query="Fungua nyimbo za injili kwenye Yutubu">
+            🎵 <strong>Yutubu:</strong> Nyimbo za Injili
           </button>
-          <button class="pill-btn" data-query="Washa tochi ya simu kuko giza">
-            🔦 "Washa Tochi"
+          <button class="pill-btn app-pill-cam" data-query="Nataka kupiga picha ya wajukuu">
+            📸 <strong>Kamera:</strong> Piga Picha
           </button>
-          <button class="pill-btn" data-query="Betri ya simu ikoje leo?">
-            🔋 "Hali ya Betri"
+          <button class="pill-btn app-pill-set" data-query="Maandishi ni madogo, ongeza ukubwa wa maandishi">
+            🔤 <strong>Kuza Maandishi</strong>
+          </button>
+          <button class="pill-btn app-pill-bal" data-query="Salio langu la simu limebaki ngapi">
+            📞 <strong>Salio:</strong> Piga *144#
+          </button>
+          <button class="pill-btn app-pill-mpesa" data-query="Nataka kutuma pesa kwa M-Pesa">
+            💸 <strong>M-Pesa:</strong> Tuma Pesa
+          </button>
+          <button class="pill-btn app-pill-torch" data-query="Washa tochi ya simu kuko giza">
+            🔦 <strong>Tochi:</strong> Washa Mwanga
+          </button>
+          <button class="pill-btn app-pill-sos" data-query="Nisaidie nimeanguka chini naumwa">
+            🚑 <strong>Dharura:</strong> Msaada
           </button>
         </div>
       </section>
@@ -107,7 +127,7 @@
       </button>
 
       <div class="footer-hint">
-        Kiswahili Fasaha cha Afrika Mashariki &bull; Sauti Kubwa kwa Wazee
+        Kiswahili Fasaha &bull; Msaidizi Kamili wa Simu kwa Wazee
       </div>
     </footer>
   </div>
