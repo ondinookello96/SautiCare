@@ -55,6 +55,14 @@ async def get_index():
             return HTMLResponse(f.read())
     return HTMLResponse("<h1>SautiCare Server Running</h1><p>Static UI not yet loaded.</p>")
 
+@app.get("/slides")
+async def get_slides():
+    slides_file = static_dir / "slides.html"
+    if slides_file.exists():
+        with open(slides_file, "r", encoding="utf-8") as f:
+            return HTMLResponse(f.read())
+    return HTMLResponse("<h1>Slides not found</h1>", status_code=404)
+
 @app.get("/manifest.json")
 async def get_manifest():
     manifest_file = static_dir / "manifest.json"

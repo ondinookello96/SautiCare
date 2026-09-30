@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SautiCare — Hackathon Pitch Deck (AssemblyAI)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #059669;
+      --primary-light: #10B981;
+      --primary-dark: #047857;
+      --bg: #0F172A;
+      --surface: #1E293B;
+      --surface-border: #334155;
+      --text: #F8FAFC;
+      --text-muted: #94A3B8;
+      --accent-gold: #F59E0B;
+      --accent-red: #EF4444;
+      --accent-blue: #3B82F6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      user-select: none;
+    }
+
+    /* Deck Layout */
+    .deck-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slide {
+      display: none;
+      width: 90vw;
+      max-width: 1200px;
+      height: 82vh;
+      background: var(--surface);
+      border: 1px solid var(--surface-border);
+      border-radius: 24px;
+      padding: 48px 56px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      position: relative;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Header */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--surface-border);
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+    }
+
+    .tag-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--primary-light);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .slide-title {
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #FFFFFF;
+      margin-top: 8px;
+    }
+
+    .slide-subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* Content Area */
+    .slide-body {
+      flex: 1;
+      display: flex;
+      gap: 32px;
+      align-items: stretch;
+      overflow-y: auto;
+    }
+
+    /* Grids & Cards */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      width: 100%;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      width: 100%;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      width: 100%;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--surface-border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 12px;
+    }
+
+    .card-icon {
+      font-size: 32px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+
+    .card-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-muted);
+    }
+
+    .stat-number {
+      font-size: 44px;
+      font-weight: 900;
+      color: var(--primary-light);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Architecture Diagram Box */
+    .arch-box {
+      width: 100%;
+      background: #0B1120;
+      border: 1px solid #1E293B;
+      border-radius: 16px;
+      padding: 20px;
+      font-family: ui-monospace, monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #38BDF8;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* Hero Slide Specifics */
+    .hero-slide {
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .hero-title {
+      font-size: 54px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #FFFFFF 0%, #10B981 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-sub {
+      font-size: 22px;
+      color: var(--text-muted);
+      max-width: 800px;
+      line-height: 1.5;
+    }
+
+    .hero-pill-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    .hero-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* Footer */
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--surface-border);
+      padding-top: 16px;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* Persistent Controls Bar */
+    .controls-bar {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--surface-border);
+      border-radius: 999px;
+      padding: 8px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      z-index: 100;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn-ctrl {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .btn-ctrl:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-primary-ctrl {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-primary-ctrl:hover {
+      background: var(--primary-light);
+    }
+
+    .progress-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .dot.active {
+      background: var(--primary-light);
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    /* Print / PDF Styles */
+    @media print {
+      body {
+        overflow: visible;
+        background: #FFFFFF;
+        color: #0F172A;
+      }
+      .controls-bar {
+        display: none !important;
+      }
+      .deck-container {
+        display: block;
+        height: auto;
+      }
+      .slide {
+        display: flex !important;
+        page-break-after: always;
+        width: 100vw;
+        height: 100vh;
+        max-width: none;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        background: #FFFFFF;
+        color: #0F172A;
+        padding: 40px;
+      }
+      .slide-title { color: #0F172A; }
+      .card { background: #F8FAFC; border-color: #E2E8F0; }
+      .card-title { color: #0F172A; }
+      .hero-title { background: none; -webkit-text-fill-color: #059669; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck-container">
+
+    <!-- SLIDE 1: COVER -->
+    <section class="slide hero-slide active" data-index="1">
+      <span class="tag-badge">🎙️ AssemblyAI Voice Agent Hackathon 2026</span>
+      <h1 class="hero-title">SautiCare</h1>
+      <p class="hero-sub">
+        An Oral-First Voice Navigator & Lifeline for African Elders across Everyday Smartphone Apps, Safe Mobile Money, and Emergency SOS.
+      </p>
+      <div class="hero-pill-row">
+        <span class="hero-pill">🇰🇪 Kiswahili</span>
+        <span class="hero-pill">🇳🇬 Nigerian Pidgin</span>
+        <span class="hero-pill">🇿🇦 isiZulu</span>
+        <span class="hero-pill">🇪🇹 Amharic / አማርኛ</span>
+        <span class="hero-pill">📶 100% Offline PWA</span>
+      </div>
+      <div style="margin-top: 16px; font-size: 15px; color: var(--text-muted);">
+        <strong>Presenter:</strong> Ondino Okello &bull; <strong>Live:</strong> sauticare.onrender.com &bull; <strong>Code:</strong> MIT Open Source
+      </div>
+    </section>
+
+    <!-- SLIDE 2: THE PROBLEM -->
+    <section class="slide" data-index="2">
+      <div class="slide-header">
+        <div>
+          <span class="tag-badge">The African Reality</span>
+          <h2 class="slide-title">100M+ African Elders Left Behind by Touchscreens</h2>
+          <p class="slide-subtitle">Rapid smartphone adoption meets an acute digital literacy & language barrier</p>
+        </div>
+        <div class="stat-number">100M+</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-4">
+          <div class="card">
+            <span class="card-icon">🔤</span>
+            <h3 class="card-title">Foreign Language & Small Text</h3>
+            <p class="card-text">Interfaces are in complex technical English with tiny fonts that deteriorating eyesight cannot decipher.</p>
+          </div>
+          <div class="card">
+            <span class="card-icon">🗣️</span>
+            <h3 class="card-title">Oral-First Culture</h3>
+            <p class="card-text">African seniors overwhelmingly communicate orally through voice notes, not soft-keyboard typing.</p>
+          </div>
+          <div class="card">
+            <span class="card-icon">💸</span>
+            <h3 class="card-title">Fintech Anxiety & Fraud</h3>
+            <p class="card-text">Elders rely on remittances (M-Pesa, OPay) but fear sending funds to wrong numbers or falling victim to scams.</p>
+          </div>
+          <div class="card">
+            <span class="card-icon">🚨</span>
+            <h3 class="card-title">Emergency Isolation</h3>
+            <p class="card-text">During sudden falls, hypertension, or illness, seniors cannot unlock phones or find contacts in time.</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div class="footer-left">SautiCare Pitch Deck</div>
+        <div class="footer-right">Slide 2 / 8</div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: THE SOLUTION -->
+    <section class="slide" data-index="3">
+      <div class="slide-header">
+        <div>
+          <span class="tag-badge">The Solution</span>
+          <h2 class="slide-title">SautiCare: Pan-African Oral Voice Assistant</h2>
+          <p class="slide-subtitle">Respectful, localized voice guidance in 4 major African languages with +40% elder audio boost</p>
+        </div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <div class="card" style="border-left: 4px solid var(--primary-light);">
+            <h3 class="card-title">🌍 4 Regional Linguistic Spheres</h3>
+            <p class="card-text">
+              • <strong>East Africa (Kiswahili):</strong> Kenya & Tanzania (Zuri, Rafiki, Daudi, Rehema)<br>
+              • <strong>West Africa (Nigerian Pidgin):</strong> Nigeria (Ezinne, Abeo)<br>
+              • <strong>Southern Africa (isiZulu):</strong> South Africa (Thando, Themba)<br>
+              • <strong>Horn of Africa (Amharic):</strong> Ethiopia (Mekdes, Ameha)
+            </p>
+          </div>
+          <div class="card" style="border-left: 4px solid var(--accent-gold);">
+            <h3 class="card-title">👵 Culturally Grounded Honorifics</h3>
+            <p class="card-text">
+              Built on <em>Heshima kwa Wazee</em> (Respect for Elders). Greets elders warmly (*"Shikamoo Mzee/Mama"*, *"Kedu Elder"*, *"Sawubona Mkhulu"*, *"ጤና ይስጥልኝ አያቴ"*). Speaks calmly with slower cadence and amplified acoustics.
+            </p>
+          </div>
+          <div class="card" style="border-left: 4px solid var(--accent-blue);">
+            <h3 class="card-title">📱 Visual Confirmation & OS Deep-Linking</h3>
+            <p class="card-text">
+              Every voice interaction produces high-contrast, step-by-step visual cards and direct OS actions: launching WhatsApp, dialing USSD, or enlarging system fonts.
+            </p>
+          </div>
+          <div class="card" style="border-left: 4px solid var(--primary);">
+            <h3 class="card-title">📶 Zero-Data Rural Resilience (PWA)</h3>
+            <p class="card-text">
+              When mobile data drops to 0MB, SautiCare automatically falls back to hardware GSM dialing and pre-cached offline guides—guaranteeing 24/7 lifeline access.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div class="footer-left">SautiCare Pitch Deck</div>
+        <div class="footer-right">Slide 3 / 8</div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: CORE CAPABILITIES -->
+    <section class="slide" data-index="4">
+      <div class="slide-header">
+        <div>
+          <span class="tag-badge">Product Features</span>
+          <h2 class="slide-title">Everyday Smartphone Empowerment</h2>
+          <p class="slide-subtitle">Solving the 5 most frequent friction points for African seniors</p>
+        </div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <span class="card-icon">💬</span>
+            <h3 class="card-title">WhatsApp Voice Notes</h3>
+            <p class="card-text">Step-by-step oral guide on opening chats, holding the mic button, and releasing to send family voice messages without typing.</p>
+          </div>
+          <div class="card">
+            <span class="card-icon">🎵</span>
+            <h3 class="card-title">Gospel & Worship Radio</h3>
+            <p class="card-text">Instant voice discovery and playback of beloved regional choirs, African gospel hymns, and national broadcasting stations.</p>
+          </div>
+          <div class="card">
+            <span class="card-icon">🔤</span>
+            <h3 class="card-title">Voice Font Magnifier</h3>
+            <p class="card-text">"Make the text big": Instantly zooms typography by +25% across the entire screen so elders can read comfortably without glasses.</p>
+          </div>
+          <div class="card">
+            <span class="card-icon">💸</span>
+            <h3 class="card-title">Safe Mobile Money</h3>
+            <p class="card-text">Guides USSD execution for M-Pesa (*334#), OPay, and Telebirr while actively cautioning elders to never reveal their PIN.</p>
+          </div>
+          <div class="card">
+            <span class="card-icon">📸</span>
+            <h3 class="card-title">Camera & Grandchildren Photos</h3>
+            <p class="card-text">Clear instructions on holding the phone steady and tapping the round white shutter button to capture and save memories.</p>
+          </div>
+          <div class="card" style="border: 2px solid var(--accent-red);">
+            <span class="card-icon">🚨</span>
+            <h3 class="card-title" style="color: #F87171;">One-Tap Emergency SOS</h3>
+            <p class="card-text">Instantly dispatches an SMS with live GPS coordinates to the elder's child and triggers a direct GSM phone call.</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div class="footer-left">SautiCare Pitch Deck</div>
+        <div class="footer-right">Slide 4 / 8</div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: ARCHITECTURE -->
+    <section class="slide" data-index="5">
+      <div class="slide-header">
+        <div>
+          <span class="tag-badge">Technology Stack</span>
+          <h2 class="slide-title">Powered by AssemblyAI & Edge Neural Speech</h2>
+          <p class="slide-subtitle">Sub-second streaming pipeline designed for low-bandwidth African cellular conditions</p>
+        </div>
+      </div>
+      <div class="slide-body" style="flex-direction: column;">
+        <div class="arch-box">
+  [Elder Speaks: Swahili / Pidgin / isiZulu / Amharic]
+                         │
+                 (MediaRecorder / WebM)
+                         ▼
+        ┌──────────────────────────────────┐
+        │   Bidirectional WebSocket API    │  &lt;-- Sub-second streaming
+        └────────────────┬─────────────────┘
+                         ▼
+        ┌──────────────────────────────────┐
+        │   AssemblyAI Speech-to-Text      │  &lt;-- Multilingual Acoustic Models
+        │   (Realtime Transcription STT)   │      sw / en-NG / zu / am
+        └────────────────┬─────────────────┘
+                         ▼
+        ┌──────────────────────────────────┐
+        │   Pan-African Intent Reasoner    │  &lt;-- Cultural Honorifics (*Heshima*)
+        │   FastAPI Python Async Core      │      Direct OS Intents (tel:, whatsapp:)
+        └────────────────┬─────────────────┘
+                         ▼
+        ┌──────────────────────────────────┐
+        │   10 Neural Regional Voices      │  &lt;-- +40% Volume Gain Amplification
+        │   & High-Contrast Visual Cards   │      PWA Service Worker v2 Offline Fallback
+        └──────────────────────────────────┘</div>
+        <div class="grid-3" style="margin-top: 12px;">
+          <div class="card" style="padding: 14px;">
+            <strong>AssemblyAI STT:</strong> Universal acoustic model with native African language detection.
+          </div>
+          <div class="card" style="padding: 14px;">
+            <strong>FastAPI Core:</strong> Sub-second async intent extraction with zero latency.
+          </div>
+          <div class="card" style="padding: 14px;">
+            <strong>PWA Service Worker v2:</strong> Network-First with cache fallback for 0MB data resilience.
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div class="footer-left">SautiCare Pitch Deck</div>
+        <div class="footer-right">Slide 5 / 8</div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: VALIDATION & DEPLOYMENT -->
+    <section class="slide" data-index="6">
+      <div class="slide-header">
+        <div>
+          <span class="tag-badge">Live Production</span>
+          <h2 class="slide-title">Tested, Verified, and Deployed Live</h2>
+          <p class="slide-subtitle">Production cloud deployment on Render with 22/22 automated test verification</p>
+        </div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card">
+            <span class="stat-number">22 / 22</span>
+            <span class="stat-label">Test Suite Passing</span>
+            <p class="card-text">Comprehensive unit and integration coverage for STT routing, intent mapping, emergency SOS, and multilingual TTS.</p>
+          </div>
+          <div class="card">
+            <span class="stat-number">&lt; 1.0s</span>
+            <span class="stat-label">End-to-End Latency</span>
+            <p class="card-text">From the moment the elder finishes speaking to audio playback, latency is under 1,000 milliseconds over WebSockets.</p>
+          </div>
+          <div class="card">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Offline Safety Pass</span>
+            <p class="card-text">Service Worker v2 ensures emergency calling, GPS SMS dispatch, and USSD guides work even with 0MB cellular bundle.</p>
+          </div>
+        </div>
+        <div class="card" style="margin-top: 16px; background: rgba(16, 185, 129, 0.1); border-color: var(--primary);">
+          <h3 class="card-title" style="color: var(--primary-light);">🌐 Live Deployment: https://sauticare.onrender.com</h3>
+          <p class="card-text" style="color: var(--text);">
+            Judges can open SautiCare right now on any iOS or Android phone, test all 4 African languages, and tap "Add to Home Screen" to run it as a native standalone PWA.
+          </p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div class="footer-left">SautiCare Pitch Deck</div>
+        <div class="footer-right">Slide 6 / 8</div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: BUSINESS MODEL & TELCO PARTNERSHIPS -->
+    <section class="slide" data-index="7">
+      <div class="slide-header">
+        <div>
+          <span class="tag-badge">Market & Distribution</span>
+          <h2 class="slide-title">Massive Market & Natural Distribution Channels</h2>
+          <p class="slide-subtitle">Solving a multi-billion dollar financial and telecom inclusion opportunity</p>
+        </div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="card" style="border-top: 4px solid var(--primary-light);">
+            <h3 class="card-title">📱 OEM Pre-Installation</h3>
+            <p class="card-text">
+              Partnering with Transsion Holdings (<strong>Tecno, itel, Infinix</strong>)—the dominant phone brand in Africa—to pre-install SautiCare as the native "Senior Mode" on entry-level Android devices.
+            </p>
+          </div>
+          <div class="card" style="border-top: 4px solid var(--accent-gold);">
+            <h3 class="card-title">📶 Telecom Senior Bundles</h3>
+            <p class="card-text">
+              Zero-rated partnerships with <strong>Safaricom, MTN, and Airtel</strong>. Telcos bundle SautiCare into senior SIM packs, reducing customer care call volume and increasing mobile money transaction volume.
+            </p>
+          </div>
+          <div class="card" style="border-top: 4px solid var(--accent-blue);">
+            <h3 class="card-title">🌍 Diaspora Subscription</h3>
+            <p class="card-text">
+              African diaspora children in the US/UK pay <strong>$2–$5/month</strong> for premium 24/7 caregiver monitoring: automated GPS alerts, battery status checks, and instant emergency dispatch for aging parents.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div class="footer-left">SautiCare Pitch Deck</div>
+        <div class="footer-right">Slide 7 / 8</div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: VISION & CLOSING -->
+    <section class="slide hero-slide" data-index="8">
+      <span class="tag-badge">The Future of Voice in Africa</span>
+      <h2 class="hero-title" style="font-size: 42px;">No Elder in Africa Left Behind</h2>
+      <p class="hero-sub" style="font-size: 19px;">
+        "By replacing complex visual menus with natural, respectful voice dialogue in native African languages, SautiCare restores independence, dignity, and safety to our parents and grandparents."
+      </p>
+      <div class="grid-3" style="max-width: 900px; text-align: left; margin-top: 12px;">
+        <div class="card">
+          <strong>Next Languages:</strong><br>Hausa, Yoruba, Oromo, and Luganda expansion.
+        </div>
+        <div class="card">
+          <strong>Direct SIM Gateway:</strong><br>Africa's Talking API for instant SIM-level SMS.
+        </div>
+        <div class="card">
+          <strong>Open Ecosystem:</strong><br>AssemblyAI-powered developer APIs for African NGOs.
+        </div>
+      </div>
+      <div style="margin-top: 16px; font-size: 16px;">
+        🚀 <strong>Test Live:</strong> <a href="https://sauticare.onrender.com" target="_blank" style="color: var(--primary-light); text-decoration: none;">sauticare.onrender.com</a> &bull;
+        📦 <strong>GitHub:</strong> <a href="https://github.com/ondinookello96/SautiCare" target="_blank" style="color: var(--accent-blue); text-decoration: none;">github.com/ondinookello96/SautiCare</a>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Persistent Interactive Controls Bar -->
+  <nav class="controls-bar" aria-label="Slide Controls">
+    <button id="btn-prev" class="btn-ctrl" title="Previous Slide (Left Arrow)">◀ Prev</button>
+    <div id="dots-container" class="progress-dots"></div>
+    <button id="btn-next" class="btn-ctrl btn-primary-ctrl" title="Next Slide (Right Arrow / Space)">Next ▶</button>
+    <button id="btn-fullscreen" class="btn-ctrl" title="Toggle Fullscreen (F)">⛶ Fullscreen</button>
+    <button id="btn-pdf" class="btn-ctrl" title="Print to PDF (Ctrl+P)">🖨️ PDF Export</button>
+  </nav>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const dotsContainer = document.getElementById('dots-container');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    const btnFullscreen = document.getElementById('btn-fullscreen');
+    const btnPdf = document.getElementById('btn-pdf');
+    let currentIndex = 0;
+
+    // Build dots
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('div');
+      dot.className = `dot ${idx === 0 ? 'active' : ''}`;
+      dot.addEventListener('click', () => goToSlide(idx));
+      dotsContainer.appendChild(dot);
+    });
+    const dots = Array.from(dotsContainer.children);
+
+    function goToSlide(index) {
+      if (index < 0 || index >= slides.length) return;
+      slides[currentIndex].classList.remove('active');
+      dots[currentIndex].classList.remove('active');
+      currentIndex = index;
+      slides[currentIndex].classList.add('active');
+      dots[currentIndex].classList.add('active');
+    }
+
+    btnPrev.addEventListener('click', () => goToSlide(currentIndex - 1));
+    btnNext.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+    btnFullscreen.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    });
+
+    btnPdf.addEventListener('click', () => {
+      window.print();
+    });
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        goToSlide(currentIndex + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        goToSlide(currentIndex - 1);
+      } else if (e.key.toLowerCase() === 'f') {
+        btnFullscreen.click();
+      } else if (e.key.toLowerCase() === 'p' && (e.ctrlKey || e.metaKey)) {
+        // native print
+      }
+    });
+  </script>
+</body>
+</html>

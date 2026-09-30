@@ -57,6 +57,12 @@ class TestSautiCareAPI(unittest.TestCase):
         self.assertEqual(data["display"], "standalone")
         self.assertEqual(data["theme_color"], "#059669")
 
+    def test_slides_endpoint(self):
+        response = self.client.get("/slides")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("SautiCare", response.text)
+        self.assertIn("deck-container", response.text)
+
     def test_service_worker(self):
         response = self.client.get("/sw.js")
         self.assertEqual(response.status_code, 200)
