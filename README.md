@@ -6,6 +6,8 @@
 [![Languages](https://img.shields.io/badge/Languages-Kiswahili%20%7C%20Pidgin%20%7C%20isiZulu%20%7C%20Amharic-orange)](#)
 [![PWA](https://img.shields.io/badge/PWA-Offline%20Ready%20v2-purple)](#)
 
+![SautiCare Banner](static/cover_banner.jpg)
+
 🌐 **Live Application URL:** [https://sauticare.onrender.com](https://sauticare.onrender.com)  
 📱 **PWA Installable:** Open in Chrome or Safari on mobile and tap *"Install"* or *"Add to Home Screen"*.
 
