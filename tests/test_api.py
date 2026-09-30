@@ -63,6 +63,13 @@ class TestSautiCareAPI(unittest.TestCase):
         self.assertIn("SautiCare", response.text)
         self.assertIn("deck-container", response.text)
 
+    def test_slides_pdf_endpoint(self):
+        response = self.client.get("/slides.pdf")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers["content-type"], "application/pdf")
+        self.assertTrue(len(response.content) > 100000)
+
+
     def test_service_worker(self):
         response = self.client.get("/sw.js")
         self.assertEqual(response.status_code, 200)

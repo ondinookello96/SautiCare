@@ -63,6 +63,13 @@ async def get_slides():
             return HTMLResponse(f.read())
     return HTMLResponse("<h1>Slides not found</h1>", status_code=404)
 
+@app.get("/slides.pdf")
+async def get_slides_pdf():
+    pdf_file = static_dir / "SautiCare_Pitch_Deck.pdf"
+    if pdf_file.exists():
+        return FileResponse(pdf_file, media_type="application/pdf", filename="SautiCare_Pitch_Deck.pdf")
+    return JSONResponse(status_code=404, content={"detail": "Pitch deck PDF not found"})
+
 @app.get("/manifest.json")
 async def get_manifest():
     manifest_file = static_dir / "manifest.json"

@@ -333,36 +333,98 @@
     }
 
     /* Print / PDF Styles */
+    @page {
+      size: 16in 9in;
+      margin: 0;
+    }
     @media print {
-      body {
-        overflow: visible;
-        background: #FFFFFF;
-        color: #0F172A;
+      *, *::before, *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        box-sizing: border-box !important;
+        animation: none !important;
+        transition: none !important;
       }
-      .controls-bar {
+      html, body {
+        width: 16in !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #0F172A !important;
+        color: #F8FAFC !important;
+        overflow: visible !important;
+        position: static !important;
+      }
+      .controls-bar, nav, script {
         display: none !important;
       }
       .deck-container {
-        display: block;
-        height: auto;
+        display: block !important;
+        width: 16in !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        position: static !important;
       }
       .slide {
         display: flex !important;
-        page-break-after: always;
-        width: 100vw;
-        height: 100vh;
-        max-width: none;
-        border: none;
-        border-radius: 0;
-        box-shadow: none;
-        background: #FFFFFF;
-        color: #0F172A;
-        padding: 40px;
+        opacity: 1 !important;
+        visibility: visible !important;
+        width: 16in !important;
+        height: 9in !important;
+        max-width: 16in !important;
+        max-height: 9in !important;
+        min-height: 9in !important;
+        box-sizing: border-box !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: #0F172A !important;
+        color: #F8FAFC !important;
+        padding: 44px 60px !important;
+        margin: 0 !important;
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+        page-break-after: always !important;
+        break-after: page !important;
       }
-      .slide-title { color: #0F172A; }
-      .card { background: #F8FAFC; border-color: #E2E8F0; }
-      .card-title { color: #0F172A; }
-      .hero-title { background: none; -webkit-text-fill-color: #059669; }
+      .slide:last-of-type, .slide[data-index="8"] {
+        page-break-after: auto !important;
+        break-after: auto !important;
+      }
+      .slide-header {
+        border-bottom: 1px solid #334155 !important;
+      }
+      .slide-title {
+        color: #FFFFFF !important;
+      }
+      .slide-subtitle {
+        color: #94A3B8 !important;
+      }
+      .card {
+        background: #1E293B !important;
+        border: 1px solid #334155 !important;
+      }
+      .card-title {
+        color: #FFFFFF !important;
+      }
+      .card-text {
+        color: #94A3B8 !important;
+      }
+      .arch-box {
+        background: #0B1120 !important;
+        border: 1px solid #1E293B !important;
+        color: #38BDF8 !important;
+      }
+      .slide-footer {
+        border-top: 1px solid #334155 !important;
+        color: #94A3B8 !important;
+      }
+      .hero-title {
+        background: linear-gradient(135deg, #FFFFFF 0%, #10B981 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+      }
     }
   </style>
 </head>
@@ -683,7 +745,8 @@
     <div id="dots-container" class="progress-dots"></div>
     <button id="btn-next" class="btn-ctrl btn-primary-ctrl" title="Next Slide (Right Arrow / Space)">Next ▶</button>
     <button id="btn-fullscreen" class="btn-ctrl" title="Toggle Fullscreen (F)">⛶ Fullscreen</button>
-    <button id="btn-pdf" class="btn-ctrl" title="Print to PDF (Ctrl+P)">🖨️ PDF Export</button>
+    <a href="/slides.pdf" download="SautiCare_Pitch_Deck.pdf" id="btn-pdf-dl" class="btn-ctrl" style="text-decoration: none; color: inherit;" title="Download Compiled PDF">📥 Download PDF</a>
+    <button id="btn-pdf" class="btn-ctrl" title="Print / Save to PDF (Ctrl+P)">🖨️ Print</button>
   </nav>
 
   <script>
