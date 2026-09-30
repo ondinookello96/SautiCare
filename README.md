@@ -4,9 +4,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Technology](https://img.shields.io/badge/Powered%20By-AssemblyAI-blue)](https://www.assemblyai.com/)
 [![Languages](https://img.shields.io/badge/Languages-Kiswahili%20%7C%20Pidgin%20%7C%20isiZulu%20%7C%20Amharic-orange)](#)
+[![PWA](https://img.shields.io/badge/PWA-Offline%20Ready%20v2-purple)](#)
 
 🌐 **Live Application URL:** [https://sauticare.onrender.com](https://sauticare.onrender.com)  
-📱 **PWA Installable:** Open the link in mobile Chrome/Safari and tap *"Add to Home Screen"*.
+📱 **PWA Installable:** Open in Chrome or Safari on mobile and tap *"Install"* or *"Add to Home Screen"*.
 
 > **An oral-first voice navigator and lifeline for African elders using smartphones. Empowers seniors across Africa to navigate everyday smartphone apps (WhatsApp voice notes, YouTube gospel, Camera, phone settings), manage mobile money safely (M-Pesa, OPay, eWallet, Telebirr), and summon 24/7 emergency help—in 4 major African languages with offline resilience.**
 
@@ -18,7 +19,7 @@ Built for the **AssemblyAI - Voice Agent Hackathon** on [lablab.ai](https://labl
 
 SautiCare bridges the digital literacy divide for over 100 million African elders across 4 key regional zones:
 
-| Region | Primary Language & Dialect | Flag | Neural Voices | Supported Mobile Money & USSD |
+| Region | Primary Language & Dialect | Flag | Neural Voices Available | Supported Mobile Money & USSD |
 | :--- | :--- | :---: | :--- | :--- |
 | **East Africa** | **Kiswahili** (Kenya, Tanzania) | 🇰🇪 🇹🇿 | `Zuri`, `Rafiki`, `Daudi`, `Rehema` | M-Pesa (`*334#`), Safaricom (`*144#`) |
 | **West Africa** | **Nigerian Pidgin** (Nigeria) | 🇳🇬 | `Ezinne`, `Abeo` | OPay / Transfers, MTN / Airtel (`*310#`) |
@@ -29,9 +30,9 @@ SautiCare bridges the digital literacy divide for over 100 million African elder
 
 ## 🌍 The Problem in Africa
 
-1. **Digital Exclusion of the Elderly:** Rapid smartphone adoption across Africa has flooded the market with affordable Android devices. However, digital literacy among aging parents and grandparents remains low. Complex nested menus, tiny text, and unfamiliar icons create anxiety.
+1. **Digital Exclusion of the Elderly:** Rapid smartphone adoption across Africa has flooded the market with affordable Android devices. However, digital literacy among aging parents and grandparents remains low. Complex nested menus, tiny English text, and unfamiliar icons create anxiety and fear.
 2. **Oral-First Communication:** African elders overwhelmingly communicate through voice notes (e.g. WhatsApp audio) rather than typing text messages.
-3. **Mobile Money Anxiety:** Elders frequently rely on remittances from children in the city, but fear sending money to the wrong recipient or being scammed via complex USSD prompts (`*334#`, `*127#`).
+3. **Mobile Money Anxiety & Fraud:** Elders frequently rely on remittances from children in the city, but fear sending money to the wrong recipient or falling victim to scammers via complex USSD prompts (`*334#`, `*127#`).
 4. **Alone During Emergencies:** In medical crises (falls, hypertension, sudden illness), elders often cannot unlock their phone or find contacts in time.
 5. **The "Zero Bundle" Reality (Offline Need):** Cellular data bundles run out frequently or drop in rural areas. Emergencies and mobile money operations cannot rely solely on active 4G data.
 
@@ -42,15 +43,15 @@ SautiCare bridges the digital literacy divide for over 100 million African elder
 SautiCare solves these challenges through a **Hybrid Dual-Engine Architecture**:
 
 * **🟢 Online Engine (Powered by AssemblyAI):**
-  * Real-time streaming Speech-to-Text over WebSockets.
-  * Robust understanding of East African Swahili accents and natural code-switching (Swahili + Sheng / English).
-  * Culturally respectful persona (*Heshima kwa Wazee*) greeting elders properly (*"Shikamoo Mzee/Mama"*).
-  * Automated tool calling for device control, M-Pesa verification, and emergency dispatch.
+  * Sub-second streaming Speech-to-Text over WebSockets and high-accuracy audio transcription.
+  * Regional acoustic routing: Swahili (`sw`), Nigerian Pidgin (`en`), and multilingual detection for isiZulu (`zu`) and Amharic (`am`).
+  * Culturally respectful personas (*Heshima kwa Wazee*) greeting elders properly in their native language (*"Shikamoo Mzee/Mama"*, *"Kedu / Salama Elder"*, *"Sawubona Mkhulu/Gogo"*, *"ጤና ይስጥልኝ አያቴ"*).
+  * Automated tool calling for smartphone features, YouTube gospel streams, and emergency dispatch.
 
 * **🟡 Offline Safety Fail-Safe (Zero Data / Rural Mode):**
-  * When mobile internet is disconnected, SautiCare automatically switches to **Offline Safety Mode**.
+  * When mobile internet is disconnected, SautiCare automatically switches to **Offline Safety Mode** via Service Worker v2.
   * **Emergency SOS:** Direct hardware trigger for **GSM voice dialing (`tel:`)** and **SMS with GPS coordinates** with 0MB data required.
-  * **M-Pesa USSD Guide:** Uses pre-cached Swahili voice prompts to guide elders step-by-step through offline USSD codes (`*334#` / SIM Toolkit).
+  * **USSD Guide:** Guides elders step-by-step through offline USSD codes (`*334#`, `*310#`, `*136#`, `*804#`).
 
 ---
 
@@ -58,53 +59,64 @@ SautiCare solves these challenges through a **Hybrid Dual-Engine Architecture**:
 
 ```
                     ┌──────────────────────────────────────────────┐
-                    │     Elderly-Friendly Smartphone Client       │
-                    │  • Giant "BONYEZA KUONGEA" Mic Button        │
-                    │  • High-Contrast AAA Accessibility UI        │
+                    │     Elder-Friendly Smartphone Client         │
+                    │  • Pan-African Language Tabs (4 Regions)     │
+                    │  • 10 Neural Regional Voices (+40% Volume)   │
+                    │  • High-Contrast AAA Font Zoom (A / A+)      │
                     │  • One-Touch "DHARURA (SOS)" Button          │
                     └───────────────────────┬──────────────────────┘
                                             │
                              [Network Connectivity Check]
                                    ┌────────┴────────┐
-                (Online / Data OK) ▼                 ▼ (Offline / No Data)
+                (Online / Data OK) ▼                 ▼ (Offline / 0MB Data)
 ┌───────────────────────────────────────────┐    ┌───────────────────────────┐
 │ Cloud Voice Engine (AssemblyAI)           │    │ Offline Safety Engine     │
-│ • Sub-second WebSocket Streaming STT      │    │ • Pre-cached Swahili Audio│
-│ • Universal-3 Pro Accent Resilience       │    │ • Direct GSM Cellular SOS │
-│ • Conversational Tool Router:             │    │ • Direct GPS SMS Intent   │
-│   - `trigger_emergency_sos`               │    │ • USSD *334# Step Guide   │
-│   - `guide_mpesa_transfer`                │    └───────────────────────────┘
-│   - `control_phone_feature` (Torch, Call) │                  │
+│ • Sub-second Realtime Transcription       │    │ • Service Worker Cache v2 │
+│ • Multilingual Acoustic Routing:          │    │ • Direct GSM Cellular SOS │
+│   - Kiswahili (sw)                        │    │ • Direct GPS SMS Intent   │
+│   - Nigerian Pidgin (en)                  │    │ • Offline USSD Guides:    │
+│   - isiZulu / Amharic Detection           │    │   *334#, *310#, *136#     │
+│ • Pan-African Intent Reasoner:            │    └───────────────────────────┘
+│   - WhatsApp Voice Notes                  │                  │
+│   - YouTube Gospel Music Streaming        │                  │
+│   - Font Magnification & Camera           │                  │
+│   - Mobile Money Verification (M-Pesa)    │                  │
+│   - Emergency SOS Tool                    │                  │
 └─────────────────────┬─────────────────────┘                  │
                       │                                        │
                       └──────────────────┬─────────────────────┘
                                          ▼
-                     [Culturally Respectful Swahili Speech &
-                         Visual Confirmation Cards]
+                     [10 Authentic Regional Neural Voices &
+                         High-Contrast Visual Step Cards]
 ```
 
 ---
 
-## 🎯 Demo Scenarios
+## 🎯 Demo Scenarios Across Africa
 
-### 1. 🚨 Emergency Fall / Illness Scenario
+### 1. 🚨 Emergency Fall / Illness (Kiswahili 🇰🇪 🇹🇿)
 * **User says:** *"Nisaidie, nimeanguka chini na siwezi kusimama"* (Help, I fell down and cannot stand)
 * **Agent responds:** *"Tulia Mzee wangu, usijali. Nimeshatuma ujumbe wa dharura pamoja na mahali ulipo kwa mwanao Juma, na sasa ninapiga simu ya msaada mara moja."*
 * **Action:** Dispatches emergency SMS with live GPS coordinates and initiates direct cellular phone call.
 
-### 2. 💸 Safe M-Pesa Remittance Scenario
-* **User says:** *"Nataka kutuma pesa kwa mtoto wangu Mary"* (I want to send money to my child Mary)
-* **Agent responds:** *"Shikamoo Mama. Kwenye M-Pesa, usalama wako ni muhimu sana. Kabla hujaweka nambari yako ya siri, hakikisha jina la mpokeaji linaonekana wazi..."*
-* **Action:** Displays high-contrast step-by-step verification card and guides them through safe USSD (`*334#`).
+### 2. 💬 WhatsApp Voice Note (Nigerian Pidgin 🇳🇬)
+* **User says:** *"I wan send voice note for WhatsApp"*
+* **Agent responds:** *"Elder, to send WhatsApp voice note easy well well: Open the person chat, press and hold the green mic button for down right..."*
+* **Action:** Shows step-by-step visual guidance card and direct deep-link to launch WhatsApp.
 
-### 3. 🔦 Everyday Accessibility (Flashlight & Phone Features)
-* **User says:** *"Washa tochi, kuko giza"* (Turn on the torch, it's dark)
-* **Agent responds:** *"Tayari nimewasha tochi ya simu yako ili uweze kuona vizuri gizani."*
-* **Action:** Toggles device flashlight simulation and confirms orally.
+### 3. 🎵 Gospel Worship Music (isiZulu 🇿🇦)
+* **User says:** *"Dlala umculo wokholo ku-YouTube"* (Play gospel music on YouTube)
+* **Agent responds:** *"Sawubona Mkhulu! Ngikulisele izingoma ezinhle zokholo ku-YouTube..."*
+* **Action:** Displays one-tap quick links to Zulu gospel playlists and opens YouTube directly.
+
+### 4. 🔤 Screen Text Magnification (Amharic 🇪🇹)
+* **User says:** *"የስክሪኑ ጽሑፍ በጣም አነሰ አግዝፈው"* (The screen text is too small, enlarge it)
+* **Agent responds:** *"ጤና ይስጥልኝ አያቴ! የስክሪኑን ጽሑፍ መጠን ጨምሬዋለሁ..."*
+* **Action:** Instantly enlarges entire app typography by +25% for easy reading without glasses.
 
 ---
 
-## 🚀 Quickstart & Setup
+## 🚀 Quickstart & Local Setup
 
 ### Prerequisites
 * Python 3.10+
@@ -118,7 +130,10 @@ cd SautiCare
 
 # Create and activate virtual environment
 python -m venv .venv
-source .venv/bin/activate  # On Windows: .\.venv\Scripts\activate
+# On Windows:
+.\.venv\Scripts\activate
+# On Linux/macOS:
+source .venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
@@ -138,6 +153,7 @@ Open your browser at: **`http://localhost:8000`**
 ```bash
 python -m unittest discover tests
 ```
+*All 22 unit and integration tests pass synchronously.*
 
 ---
 
@@ -145,10 +161,10 @@ python -m unittest discover tests
 
 | Judging Criteria (25% each) | How SautiCare Excels |
 | :--- | :--- |
-| **Application of Technology** | Deep integration of AssemblyAI Realtime Streaming STT, sub-second latency, voice session management, and JSON tool calling. |
-| **Originality** | An oral-first Swahili voice agent specifically engineered around the African elder digital divide, code-switching, and cultural honorifics. |
-| **Business Value** | Solves a massive humanitarian and fintech inclusion problem for 50M+ aging Africans and their diaspora families. |
-| **Presentation** | High-contrast elder-accessible UI, clear bilingual subtitles for global judges, and comprehensive documentation. |
+| **Application of Technology** | Deep integration of AssemblyAI Speech-to-Text streaming and audio transcription, regional acoustic routing, sub-second latency, and bidirectional WebSocket pipelines. |
+| **Originality** | An oral-first voice assistant specifically engineered around the African elder digital divide, culturally grounded honorific personas (*Heshima kwa Wazee*), and code-switching. |
+| **Business Value** | Solves a massive humanitarian, healthcare, and fintech inclusion problem for 100M+ aging Africans and their diaspora families. Natural B2B fit for telecom bundling (Safaricom, MTN, Airtel) and OEM pre-installs (Transsion / Tecno / itel). |
+| **Presentation** | High-contrast elder-accessible UI, 10 authentic neural voices with +40% volume amplification, bilingual subtitles, and standalone PWA offline resilience. |
 
 ---
 
